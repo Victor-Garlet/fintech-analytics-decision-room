@@ -298,34 +298,74 @@ def build_episode_04(connection):
         """
     ).fetchall()
 
-    fig, _ = base_figure(
-        4,
-        "The transfer completed. The money\nstill did not reconcile.",
-        "One corridor-provider pair made the control problem visible.",
-    )
-    ax = fig.add_axes((0.13, 0.42, 0.74, 0.30), facecolor=PAPER)
-    groups = [row[0] for row in rows]
-    rates = [row[3] for row in rows]
-    bars = ax.bar(groups, rates, color=[ORANGE, PURPLE], width=0.55)
-    ax.spines[:].set_visible(False)
-    ax.grid(axis="y", color=LINE, linewidth=0.8)
-    ax.set_ylabel("Exception rate", color=MUTED)
-    ax.set_ylim(0, 45)
-    ax.set_yticks([0, 10, 20, 30, 40], ["0%", "10%", "20%", "30%", "40%"])
-    ax.tick_params(axis="x", length=0, labelsize=12)
-    for bar, row in zip(bars, rows):
-        ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 1.2, f"{row[3]:.1f}%\n{row[2]:.0f} exceptions", ha="center", fontweight="bold", color=INK)
+    route_metrics = {row[0]: row for row in rows}
+    hotspot = route_metrics["C13 + P04"]
+    rest = route_metrics["All other routes"]
+    total_transfers = hotspot[1] + rest[1]
+    total_exceptions = hotspot[2] + rest[2]
+    transfer_share = 100.0 * hotspot[1] / total_transfers
+    exception_share = 100.0 * hotspot[2] / total_exceptions
+    rate_multiple = hotspot[3] / rest[3]
+    reason_counts = {reason: count for reason, count in reason_rows}
 
-    card_ax = fig.add_axes((0.11, 0.16, 0.78, 0.17))
-    card_ax.set_xlim(0, 1)
-    card_ax.set_ylim(0, 1)
-    card_ax.axis("off")
-    card(card_ax, 0, 0, 1, 1, WHITE)
-    card_ax.text(0.05, 0.75, "HOTSPOT BREAKDOWN", color=ORANGE, fontsize=10, fontweight="bold")
-    x_positions = [0.18, 0.50, 0.82]
-    for x, (reason, count) in zip(x_positions, reason_rows):
-        card_ax.text(x, 0.42, f"{count}", ha="center", color=INK, fontsize=24, fontweight="bold")
-        card_ax.text(x, 0.18, reason.replace("_", " ").title(), ha="center", color=MUTED, fontsize=10)
+    fig = plt.figure(figsize=(12, 15), facecolor=WHITE)
+    ax = fig.add_axes((0, 0, 1, 1))
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
+
+    def rough_card(x, y, width, height, linewidth=2.5):
+        patch = FancyBboxPatch(
+            (x, y),
+            width,
+            height,
+            boxstyle="round,pad=0.012,rounding_size=0.018",
+            linewidth=linewidth,
+            edgecolor=INK,
+            facecolor=WHITE,
+        )
+        patch.set_sketch_params(scale=1.2, length=90, randomness=2.5)
+        ax.add_patch(patch)
+
+    def rough_line(xs, ys, linewidth=2.2):
+        line, = ax.plot(xs, ys, color=INK, linewidth=linewidth)
+        line.set_sketch_params(scale=1.2, length=90, randomness=2.5)
+
+    fig.text(0.50, 0.955, "30 DAYS INSIDE A EUROPEAN FINTECH  ·  4/8", ha="center", color=INK, fontsize=13, fontweight="bold")
+    fig.text(0.50, 0.865, "ONE ROUTE CARRIED\n34% OF THE EXCEPTIONS.", ha="center", color=INK, fontsize=33, fontweight="bold", linespacing=1.0)
+    fig.text(0.50, 0.785, f"{transfer_share:.1f}% of completed transfers  ·  March to May 2026", ha="center", color=INK, fontsize=15)
+
+    rough_card(0.07, 0.555, 0.38, 0.16, 3.0)
+    ax.text(0.26, 0.675, "HOTSPOT  ·  C13 + P04", ha="center", color=INK, fontsize=13, fontweight="bold")
+    ax.text(0.26, 0.625, f"{hotspot[3]:.1f}%", ha="center", color=INK, fontsize=30, fontweight="bold")
+    ax.text(0.26, 0.585, f"{hotspot[2]} exceptions / {hotspot[1]} transfers", ha="center", color=INK, fontsize=12)
+
+    rough_card(0.55, 0.555, 0.38, 0.16, 3.0)
+    ax.text(0.74, 0.675, "ALL OTHER ROUTES", ha="center", color=INK, fontsize=13, fontweight="bold")
+    ax.text(0.74, 0.625, f"{rest[3]:.1f}%", ha="center", color=INK, fontsize=30, fontweight="bold")
+    ax.text(0.74, 0.585, f"{rest[2]} exceptions / {rest[1]:,} transfers", ha="center", color=INK, fontsize=12)
+
+    rough_line([0.45, 0.55], [0.635, 0.635], 2.2)
+    ax.text(0.50, 0.655, f"{rate_multiple:.1f}×", ha="center", color=INK, fontsize=15, fontweight="bold")
+
+    rough_card(0.08, 0.345, 0.84, 0.14, 3.0)
+    ax.text(0.50, 0.455, f"HOTSPOT BREAKDOWN  ·  {exception_share:.1f}% OF ALL EXCEPTIONS", ha="center", color=INK, fontsize=14, fontweight="bold")
+    breakdown = [
+        (0.22, reason_counts["amount_mismatch"], "AMOUNT MISMATCH"),
+        (0.50, reason_counts["late"], "LATE"),
+        (0.78, reason_counts["missing"], "MISSING"),
+    ]
+    for x, count, label in breakdown:
+        ax.text(x, 0.405, f"{count}", ha="center", color=INK, fontsize=24, fontweight="bold")
+        ax.text(x, 0.37, label, ha="center", color=INK, fontsize=10, fontweight="bold")
+    rough_line([0.355, 0.355], [0.36, 0.43], 1.7)
+    rough_line([0.645, 0.645], [0.36, 0.43], 1.7)
+
+    ax.text(0.50, 0.215, "TARGET THE CONTROL, NOT THE WHOLE PORTFOLIO.", ha="center", color=INK, fontsize=21, fontweight="bold")
+    rough_line([0.22, 0.78], [0.202, 0.202], 2.0)
+    ax.text(0.50, 0.165, "concentration identifies where to investigate  ·  it does not prove the cause", ha="center", color=INK, fontsize=12)
+    fig.text(0.50, 0.075, "Synthetic transaction data  |  Independent simulation", ha="center", color=INK, fontsize=10)
+    fig.text(0.92, 0.035, "Victor Moraes Garlet", ha="right", color=INK, fontsize=10, fontweight="bold")
     save(fig, "episode_04_reconciliation_hotspot.png")
 
 
