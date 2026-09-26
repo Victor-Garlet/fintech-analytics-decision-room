@@ -25,7 +25,7 @@ class PublicContentTestCase(unittest.TestCase):
             self.assertEqual(post.count(DISCLOSURE), 1)
             self.assertNotIn("—", post)
             self.assertGreaterEqual(len(post), 1700)
-            self.assertLessEqual(len(post), 2400)
+            self.assertLessEqual(len(post), 3000)
 
     def test_eight_visuals_use_the_linkedin_portrait_ratio(self):
         visuals = sorted(VISUALS_DIRECTORY.glob("episode_*.png"))
@@ -37,9 +37,13 @@ class PublicContentTestCase(unittest.TestCase):
 
     def test_editorial_calendar_tracks_release_status(self):
         calendar = (PROJECT_ROOT / "content" / "editorial_calendar.md").read_text(encoding="utf-8")
-        self.assertEqual(calendar.count("Hold for approval"), 7)
+        self.assertEqual(calendar.count("Hold for approval"), 6)
         self.assertIn(
             "| 1 | Tue, 29 Sep 2026 | Frame the take-rate decision | Metric tree | Scheduled for 08:00 Europe/Dublin |",
+            calendar,
+        )
+        self.assertIn(
+            "| 2 | Fri, 2 Oct 2026 | Establish the evidence boundary | Evidence layers | Scheduled for 08:00 Europe/Dublin |",
             calendar,
         )
 

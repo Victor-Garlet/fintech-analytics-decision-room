@@ -134,26 +134,57 @@ def build_episode_01(connection):
 
 
 def build_episode_02():
-    fig, ax = base_figure(
-        2,
-        "Credible simulation starts with\nan evidence boundary.",
-        "Three labels prevent a portfolio project from implying internal access.",
-    )
-    items = [
-        ("PUBLIC FACT", "Company-level context", "Official disclosures frame the business question.", PURPLE_SOFT, PURPLE),
-        ("PROJECT ASSUMPTION", "A documented modelling choice", "Definitions and thresholds make the simulation coherent.", WHITE, INK),
-        ("SYNTHETIC RESULT", "Evidence inside this case", "Generated events support a simulated decision only.", ORANGE_SOFT, ORANGE),
+    fig = plt.figure(figsize=(12, 15), facecolor=WHITE)
+    ax = fig.add_axes((0, 0, 1, 1))
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
+
+    def rough_card(x, y, width, height, linewidth=2.5):
+        patch = FancyBboxPatch(
+            (x, y),
+            width,
+            height,
+            boxstyle="round,pad=0.012,rounding_size=0.018",
+            linewidth=linewidth,
+            edgecolor=INK,
+            facecolor=WHITE,
+        )
+        patch.set_sketch_params(scale=1.2, length=90, randomness=2.5)
+        ax.add_patch(patch)
+
+    def rough_line(xs, ys, linewidth=2.2):
+        line, = ax.plot(xs, ys, color=INK, linewidth=linewidth)
+        line.set_sketch_params(scale=1.2, length=90, randomness=2.5)
+
+    fig.text(0.50, 0.955, "30 DAYS INSIDE A EUROPEAN FINTECH  ·  2/8", ha="center", color=INK, fontsize=13, fontweight="bold")
+    fig.text(0.50, 0.865, "BEFORE THE FIRST INSIGHT,\nLOCK THE BOUNDARIES.", ha="center", color=INK, fontsize=32, fontweight="bold", linespacing=1.0)
+    fig.text(0.50, 0.785, "public fact  ≠  project assumption  ≠  synthetic result", ha="center", color=INK, fontsize=15)
+
+    evidence = [
+        (0.055, "PUBLIC FACT", "frames the\nquestion"),
+        (0.365, "PROJECT ASSUMPTION", "defines the\nsimulation"),
+        (0.675, "SYNTHETIC RESULT", "supports this\ncase only"),
     ]
-    ys = [0.61, 0.41, 0.21]
-    for number, ((tag, heading, body, fill, accent), y) in enumerate(zip(items, ys), start=1):
-        card(ax, 0.09, y, 0.82, 0.145, fill)
-        ax.text(0.125, y + 0.097, f"0{number}", color=accent, fontsize=13, fontweight="bold")
-        ax.text(0.20, y + 0.101, tag, color=accent, fontsize=11, fontweight="bold")
-        ax.text(0.20, y + 0.06, heading, color=INK, fontsize=18, fontweight="bold")
-        ax.text(0.20, y + 0.026, body, color=MUTED, fontsize=11)
-        if number < 3:
-            ax.text(0.50, y - 0.035, "↓", color=INK, fontsize=23, ha="center")
-    ax.text(0.50, 0.12, "The boundary is part of the analysis, not a footnote.", ha="center", color=INK, fontsize=17, fontweight="bold")
+    for x, heading, body in evidence:
+        rough_card(x, 0.585, 0.27, 0.115)
+        ax.text(x + 0.135, 0.655, heading, ha="center", color=INK, fontsize=11, fontweight="bold")
+        ax.text(x + 0.135, 0.61, body, ha="center", color=INK, fontsize=12, linespacing=1.15)
+
+    rough_line([0.50, 0.50], [0.585, 0.545])
+    rough_card(0.10, 0.39, 0.80, 0.13, 3.0)
+    ax.text(0.50, 0.475, "METRIC CONTRACT", ha="center", color=INK, fontsize=15, fontweight="bold")
+    ax.text(0.50, 0.43, "FORMULA  ·  POPULATION  ·  TIME  ·  GRAIN  ·  OWNER  ·  VALIDATION", ha="center", color=INK, fontsize=12, family="monospace")
+
+    rough_line([0.50, 0.50], [0.39, 0.35])
+    rough_card(0.18, 0.235, 0.64, 0.085)
+    ax.text(0.50, 0.285, "MODELS SEE EVENTS", ha="center", color=INK, fontsize=15, fontweight="bold")
+    ax.text(0.50, 0.252, "not the planted answer key", ha="center", color=INK, fontsize=12)
+
+    ax.text(0.50, 0.155, "AGREE ON THE METRIC BEFORE ACTING.", ha="center", color=INK, fontsize=21, fontweight="bold")
+    rough_line([0.29, 0.71], [0.143, 0.143], 2.0)
+    fig.text(0.50, 0.075, "Synthetic transaction data  |  Independent simulation", ha="center", color=INK, fontsize=10)
+    fig.text(0.92, 0.035, "Victor Moraes Garlet", ha="right", color=INK, fontsize=10, fontweight="bold")
     save(fig, "episode_02_evidence_boundary.png")
 
 

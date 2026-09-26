@@ -5,3 +5,4 @@ duckdb==1.5.5
 dbt-core==1.12.5
 dbt-duckdb==1.11.0
 matplotlib>=3.8,<4
+Pillow>=10,<13
