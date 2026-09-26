@@ -35,9 +35,13 @@ class PublicContentTestCase(unittest.TestCase):
             with Image.open(path) as image:
                 self.assertEqual(image.size, (1800, 2250))
 
-    def test_editorial_calendar_keeps_publication_on_hold(self):
+    def test_editorial_calendar_tracks_release_status(self):
         calendar = (PROJECT_ROOT / "content" / "editorial_calendar.md").read_text(encoding="utf-8")
-        self.assertEqual(calendar.count("Hold for approval"), 8)
+        self.assertEqual(calendar.count("Hold for approval"), 7)
+        self.assertIn(
+            "| 1 | Tue, 29 Sep 2026 | Frame the take-rate decision | Metric tree | Scheduled for 08:00 Europe/Dublin |",
+            calendar,
+        )
 
 
 if __name__ == "__main__":
