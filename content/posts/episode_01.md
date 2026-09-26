@@ -1,43 +1,53 @@
 # Episode 1: Frame the decision
 
-**Status:** Draft for approval  
+**Status:** Approved
 **Visual:** `content/visuals/episode_01_metric_tree.png`
 
 ## Post copy
+
+In my simulated fintech, collected take rate fell from 50.23 to 48.05 basis points.
+
+Should Pricing reverse a discount, should Finance investigate a fee shortfall, or should nobody intervene yet?
+
+The KPI alone cannot answer that.
 
 **30 Days Inside a European Fintech [1/8]**
 
 I'm using Wise's public disclosures and synthetic data to simulate how a Senior Data Analyst could work through a fintech problem from question to decision.
 
-A lower take rate appeared in the scorecard.
+A 2.18 bps decline could come from very different places:
 
-That sounds like bad news until you ask what moved underneath it.
+• customers moved towards lower-priced routes
+• list-price yield changed within a segment
+• the business deliberately invested in lower customer prices
+• the amount collected fell below the approved price
 
-In the simulated business, collected take rate fell by 2.18 basis points between the H2 2025 baseline and H1 2026.
+Those explanations should not be treated as the same problem.
 
-There are at least four very different explanations for that movement:
+A portfolio shift may require no intervention. An approved price investment should be evaluated against customer and growth outcomes. An unexpected shortfall needs investigation and a control fix.
 
-• the portfolio mix changed  
-• list-price yield changed inside a segment  
-• the business deliberately invested in customer pricing  
-• a fee was collected incorrectly
+So I did not start with a dashboard.
 
-Those explanations lead to different decisions. A planned price investment should be evaluated against customer and growth outcomes. A configuration leak needs a control fix. Mix may need no intervention at all.
-
-I started with a decision tree. The dashboard came later.
-
-The question is:
+I started with the decision the analysis needed to support:
 
 How can a European payments fintech lower prices and improve transfer speed without losing control of unit economics?
 
-The work will follow that question through metric definitions, reconciliation, take-rate decomposition, provider economics and a final recommendation.
+From there, the work became more specific:
 
-The first rule is simple: never attach an action to a headline KPI before explaining its movement.
+1. Define each metric before calculating it
+2. Reconcile volume and fees to the same transfer population
+3. Separate list, expected and collected fees
+4. Explain the movement before recommending action
+5. Connect the result to transfer speed and provider cost
 
-When take rate moves in your team, can you separate approved investment from unexpected shortfall?
+The 2.18 bps decline is the starting signal. It is not the diagnosis.
 
-Quick glossary  
+Next, I'll build the metric contract behind this analysis. If Finance, Pricing and Operations mean different things by “take rate”, every conclusion after that becomes unstable.
+
+Quick glossary
+
 *Take rate = fee revenue as a proportion of transfer volume.  
 *Basis point (bp) = 0.01 percentage point.
+*Metric contract = an agreed definition covering the formula, filters, level of detail and ownership of a metric.
 
-This is an independent simulation inspired by Wise's public disclosures. I am not affiliated with Wise. All transaction-level data and project findings are synthetic; any company-level figures are sourced from public reports.
+Disclosure: This is an independent simulation inspired by Wise's public disclosures. I am not affiliated with Wise. All transaction-level data and project findings are synthetic; any company-level figures are sourced from public reports.

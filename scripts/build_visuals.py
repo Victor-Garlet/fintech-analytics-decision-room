@@ -71,29 +71,65 @@ def build_episode_01(connection):
     values = {code: (label, value) for code, label, value in rows}
     change = values["comparison"][1] - values["baseline"][1]
 
-    fig, ax = base_figure(
-        1,
-        "A lower take rate is not\nautomatically bad news.",
-        "The headline moved. The decision depends on why.",
-    )
-    card(ax, 0.31, 0.55, 0.38, 0.16, PURPLE_SOFT)
-    ax.text(0.50, 0.655, "COLLECTED TAKE RATE", ha="center", color=MUTED, fontsize=11, fontweight="bold")
-    ax.text(0.50, 0.59, f"{change:+.2f} bps", ha="center", color=INK, fontsize=38, fontweight="bold")
+    fig = plt.figure(figsize=(12, 15), facecolor=WHITE)
+    ax = fig.add_axes((0, 0, 1, 1))
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
+
+    def rough_card(x, y, width, height, linewidth=2.7):
+        patch = FancyBboxPatch(
+            (x, y),
+            width,
+            height,
+            boxstyle="round,pad=0.012,rounding_size=0.018",
+            linewidth=linewidth,
+            edgecolor=INK,
+            facecolor=WHITE,
+        )
+        patch.set_sketch_params(scale=1.2, length=90, randomness=2.5)
+        ax.add_patch(patch)
+
+    def rough_line(xs, ys, linewidth=2.2):
+        line, = ax.plot(xs, ys, color=INK, linewidth=linewidth, zorder=0)
+        line.set_sketch_params(scale=1.2, length=90, randomness=2.5)
+
+    baseline = values["baseline"][1]
+    comparison = values["comparison"][1]
+
+    fig.text(0.50, 0.955, "30 DAYS INSIDE A EUROPEAN FINTECH  ·  1/8", ha="center", color=INK, fontsize=13, fontweight="bold")
+    fig.text(0.50, 0.865, "TAKE RATE FELL.\nWHAT ACTUALLY MOVED?", ha="center", color=INK, fontsize=34, fontweight="bold", linespacing=1.0)
+    fig.text(0.50, 0.79, "one metric. four possible explanations.", ha="center", color=INK, fontsize=16)
+
+    rough_card(0.16, 0.60, 0.68, 0.13, 3.0)
+    ax.text(0.50, 0.685, "COLLECTED TAKE RATE", ha="center", color=INK, fontsize=14, fontweight="bold")
+    ax.text(0.50, 0.645, f"{baseline:.2f}  →  {comparison:.2f} bps", ha="center", color=INK, fontsize=28, fontweight="bold")
+    ax.text(0.50, 0.612, f"CHANGE   {change:+.2f} bps", ha="center", color=INK, fontsize=14, family="monospace")
+
+    rough_line([0.50, 0.50], [0.60, 0.56])
+    rough_line([0.25, 0.75], [0.56, 0.56])
+    rough_line([0.25, 0.25], [0.56, 0.535])
+    rough_line([0.75, 0.75], [0.56, 0.535])
+    rough_line([0.50, 0.50], [0.56, 0.405])
+    rough_line([0.25, 0.75], [0.405, 0.405])
+    rough_line([0.25, 0.25], [0.405, 0.38])
+    rough_line([0.75, 0.75], [0.405, 0.38])
 
     branches = [
-        ("portfolio_mix", 0.07, 0.34, PURPLE_SOFT),
-        ("within_cell_yield", 0.29, 0.34, WHITE),
-        ("approved_price_investment", 0.51, 0.34, PURPLE_SOFT),
-        ("fee_leakage", 0.73, 0.34, ORANGE_SOFT),
+        (0.06, 0.46, "PORTFOLIO MIX?", "customers moved to\ndifferent routes"),
+        (0.54, 0.46, "LIST-PRICE YIELD?", "pricing changed inside\na segment"),
+        (0.06, 0.305, "APPROVED INVESTMENT?", "intentional lower\ncustomer pricing"),
+        (0.54, 0.305, "UNEXPECTED SHORTFALL?", "collected fee below\napproved price"),
     ]
-    for code, x, y, fill in branches:
-        ax.plot([0.50, x + 0.09], [0.55, y + 0.15], color=LINE, linewidth=2, zorder=0)
-        card(ax, x, y, 0.18, 0.15, fill)
-        label, impact = values[code]
-        ax.text(x + 0.09, y + 0.095, f"{impact:+.2f} bps", ha="center", color=ORANGE if impact < -1 else INK, fontsize=19, fontweight="bold")
-        ax.text(x + 0.09, y + 0.04, label.replace(" ", "\n", 1), ha="center", va="center", color=MUTED, fontsize=9)
+    for x, y, heading, body in branches:
+        rough_card(x, y, 0.40, 0.105)
+        ax.text(x + 0.20, y + 0.068, heading, ha="center", color=INK, fontsize=14, fontweight="bold")
+        ax.text(x + 0.20, y + 0.027, body, ha="center", color=INK, fontsize=11, linespacing=1.15)
 
-    ax.text(0.07, 0.18, "The same movement can mean a deliberate investment, a mix shift,\nor a control failure. Only one of those should trigger an incident.", color=INK, fontsize=17, linespacing=1.45)
+    ax.text(0.50, 0.20, "DIAGNOSIS BEFORE ACTION.", ha="center", color=INK, fontsize=24, fontweight="bold")
+    rough_line([0.32, 0.68], [0.188, 0.188], 2.0)
+    fig.text(0.50, 0.075, "Synthetic transaction data  |  Independent simulation", ha="center", color=INK, fontsize=10)
+    fig.text(0.92, 0.035, "Victor Moraes Garlet", ha="right", color=INK, fontsize=10, fontweight="bold")
     save(fig, "episode_01_metric_tree.png")
 
 
