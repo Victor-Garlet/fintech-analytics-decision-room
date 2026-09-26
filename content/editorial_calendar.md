@@ -6,11 +6,11 @@ Publish twice per week, Tuesday and Friday at 08:00 Europe/Dublin.
 
 The technical project can be completed in one sprint. The public story benefits from four weeks because each post has time to circulate, collect discussion and lead naturally into the next decision.
 
-Nothing in this calendar is approved for publication yet.
+Episode 1 is scheduled. Episodes 2–8 remain on hold for review and approval.
 
 | Episode | Date | Role in the series | Visual | Status |
 | --- | --- | --- | --- | --- |
-| 1 | Tue, 29 Sep 2026 | Frame the take-rate decision | Metric tree | Hold for approval |
+| 1 | Tue, 29 Sep 2026 | Frame the take-rate decision | Metric tree | Scheduled for 08:00 Europe/Dublin |
 | 2 | Fri, 2 Oct 2026 | Establish the evidence boundary | Evidence layers | Hold for approval |
 | 3 | Tue, 6 Oct 2026 | Reconcile Finance and Operations clocks | Reporting bridge | Hold for approval |
 | 4 | Fri, 9 Oct 2026 | Isolate the settlement hotspot | Exception-rate comparison | Hold for approval |

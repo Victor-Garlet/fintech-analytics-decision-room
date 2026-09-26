@@ -1,6 +1,6 @@
 # Episode 1: Frame the decision
 
-**Status:** Approved
+**Status:** Scheduled for Tue, 29 Sep 2026 at 08:00 Europe/Dublin
 **Visual:** `content/visuals/episode_01_metric_tree.png`
 
 ## Post copy
