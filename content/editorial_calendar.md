@@ -6,7 +6,7 @@ Publish twice per week, Tuesday and Friday at 08:00 Europe/Dublin.
 
 The technical project can be completed in one sprint. The public story benefits from four weeks because each post has time to circulate, collect discussion and lead naturally into the next decision.
 
-Episodes 1–7 are scheduled. Episode 8 remains on hold for review and approval.
+All eight episodes are scheduled.
 
 | Episode | Date | Role in the series | Visual | Status |
 | --- | --- | --- | --- | --- |
@@ -17,7 +17,7 @@ Episodes 1–7 are scheduled. Episode 8 remains on hold for review and approval.
 | 5 | Tue, 13 Oct 2026 | Decompose the take-rate movement | Waterfall | Scheduled for 08:00 Europe/Dublin |
 | 6 | Fri, 16 Oct 2026 | Evaluate speed, cost and support | Trade-off chart | Scheduled for 08:00 Europe/Dublin |
 | 7 | Tue, 20 Oct 2026 | Convert findings into actions and a test | Decision matrix | Scheduled for 08:00 Europe/Dublin |
-| 8 | Fri, 23 Oct 2026 | Present the final leadership recommendation | Executive decision page | Hold for approval |
+| 8 | Fri, 23 Oct 2026 | Present the final leadership recommendation | Executive decision page | Scheduled for 08:00 Europe/Dublin |
 
 ## Publishing checklist
 

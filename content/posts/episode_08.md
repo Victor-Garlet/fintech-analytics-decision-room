@@ -1,42 +1,71 @@
 # Episode 8: Make the decision defensible
 
-**Status:** Draft for approval  
+**Status:** Scheduled for Fri, 23 Oct 2026 at 08:00 Europe/Dublin
 **Visual:** `content/visuals/episode_08_executive_decision.png`
+**Alt text:** Black-and-white hand-drawn executive decision page for the final episode of a synthetic European fintech case. The decision is to protect unit economics without reversing intentional price investment. Action 1 fixes C07 pricing after 215 transfers created $3,960.94 of synthetic exposure, owned by Pricing and Finance with zero new shortfalls as the success measure. Action 2 controls C13/P04 settlement after a 39.7% exception rate versus 4.2% elsewhere, owned by Payments Operations and Provider Management. Action 3 tests C01 routing with a 25% treatment and an estimated $265 contribution uplift, owned by Product and Finance and scaled only if every guardrail holds. The unresolved boundaries are recovery amount, provider cause and production impact.
 
 ## Post copy
+
+Eight episodes produced dozens of metrics.
+
+The final page keeps three decisions.
 
 **30 Days Inside a European Fintech [8/8]**
 
 I'm using Wise's public disclosures and synthetic data to simulate how a Senior Data Analyst could work through a fintech problem from question to decision.
 
-The final deliverable is one decision page.
+My recommendation is to protect unit economics without reversing intentional price investment.
 
-The recommendation:
+1. Correct the C07 pricing configuration
 
-Protect unit economics without masking intentional price investment.
+Owner: Pricing Analytics and Finance.
 
-Three actions sit underneath it.
+The issue affected 215 business transfers and created $3,960.94 of synthetic exposure.
 
-1. Correct the pricing leakage
+Correct the rule, review affected records and compare expected with collected fee before daily close.
 
-One corridor and business segment produced $3,960.94 of simulated lost fees. Fix the configuration, reconcile affected records and test expected against collected fee before daily close.
+Success means zero new unexpected shortfalls and a resolution status for every affected record.
 
-2. Repair the settlement control
+2. Repair the C13/P04 settlement control
 
-One corridor-provider pair reached a 39.7% exception rate. Give the route an owner and track amount mismatch, lateness, missing settlement and unresolved ageing separately.
+Owner: Payments Operations and Provider Management.
 
-3. Test a limited routing change
+The route reached a 39.7% exception rate, compared with 4.2% elsewhere.
 
-The priority-speed route is materially faster and more expensive. A 25% reroute scenario improves the contribution proxy by $265.44, with estimated trade-offs of -2.77 pp in instant rate and +0.64 pp in support contacts.
+Keep missing, late and mismatched settlements separate, assign an owner and track unresolved ageing.
 
-I would not ship that routing policy from descriptive data. I would run the controlled experiment described in the previous post and require all guardrails to clear before scaling.
+Success means returning the route within the agreed control band without growing the backlog.
 
-The technical project behind this page includes deterministic Python generation, DuckDB, 23 dbt models, 168 automated tests, reconciliation controls, decision marts and eight reproducible visuals.
+3. Authorise a controlled C01 routing experiment
 
-The biggest lesson from the series is that analysis becomes useful when every number has a definition, every finding has a confidence level and every recommendation says what happens next.
+Owner: Payments Product and Finance Analytics.
 
-Quick glossary  
-*Contribution margin proxy = collected fee minus provider and estimated support costs in this simulation.  
-*Decision guardrail = a limit that protects customer or operational outcomes while pursuing the primary goal.
+A 25% planning scenario estimates $315.28 lower provider cost and $265.44 higher contribution margin proxy.
 
-This is an independent simulation inspired by Wise's public disclosures. I am not affiliated with Wise. All transaction-level data and project findings are synthetic; any company-level figures are sourced from public reports.
+It also estimates a 2.77 percentage-point decline in instant delivery and a 0.64 percentage-point increase in support contacts.
+
+I would scale only if contribution improved and the speed, support and reconciliation guardrails remained within limits agreed before the test.
+
+The evidence still has boundaries.
+
+The exposure is not automatically recoverable. The settlement concentration does not prove the provider caused it. The routing scenario sizes an opportunity; it does not forecast the result of changing production traffic.
+
+The project uses 23 dbt models and 168 automated tests to keep each headline number connected to its definition, source records and business rules.
+
+I started with one take-rate decline.
+
+The analysis separated it into approved price investment, unexpected fee leakage, a settlement-control failure and a routing hypothesis worth testing.
+
+That changed the response to each finding.
+
+The final logic is simple: fix what is directly observed, control what is concentrated, test what remains uncertain and monitor what is too small to justify intervention.
+
+That is the standard I wanted this project to meet: enough evidence to decide, and enough honesty to say what could still change it.
+
+Quick glossary
+
+*Contribution margin proxy = collected fee minus provider cost and estimated support cost in this simulation.
+
+*Guardrail = a metric that must stay within an agreed limit while a test is running.
+
+Disclosure: This is an independent simulation inspired by Wise's public disclosures. I am not affiliated with Wise. All transaction-level data and project findings are synthetic; any company-level figures are sourced from public reports.

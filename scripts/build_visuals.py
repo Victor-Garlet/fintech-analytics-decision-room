@@ -617,31 +617,80 @@ def build_episode_08(connection):
         """,
     )[0]
 
-    fig, ax = base_figure(
-        8,
-        "What I would put in front of a\nfintech leadership team.",
-        "One decision page: evidence, action, test and guardrails.",
-    )
-    card(ax, 0.07, 0.60, 0.86, 0.14, PURPLE_SOFT)
-    ax.text(0.11, 0.70, "DECISION", color=PURPLE, fontsize=10, fontweight="bold")
-    ax.text(0.11, 0.655, "Protect unit economics without masking\nintentional price investment.", color=INK, fontsize=18, fontweight="bold", linespacing=1.25)
+    fig = plt.figure(figsize=(12, 15), facecolor=WHITE)
+    ax = fig.add_axes((0, 0, 1, 1))
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
 
-    cards = [
-        (0.07, 0.37, "ACT NOW", f"Recover the ${leakage:,.0f}\npricing leakage pattern", PURPLE_SOFT, PURPLE),
-        (0.365, 0.37, "CONTROL", f"Repair the route with a\n{hotspot:.1f}% exception rate", WHITE, INK),
-        (0.66, 0.37, "TEST", f"25% reroute scenario\n+${scenario[0]:,.0f} contribution", ORANGE_SOFT, ORANGE),
+    def rough_card(x, y, width, height, linewidth=2.5):
+        patch = FancyBboxPatch(
+            (x, y),
+            width,
+            height,
+            boxstyle="round,pad=0.012,rounding_size=0.018",
+            linewidth=linewidth,
+            edgecolor=INK,
+            facecolor=WHITE,
+        )
+        patch.set_sketch_params(scale=1.2, length=90, randomness=2.5)
+        ax.add_patch(patch)
+
+    def rough_line(xs, ys, linewidth=2.0):
+        line, = ax.plot(xs, ys, color=INK, linewidth=linewidth)
+        line.set_sketch_params(scale=1.2, length=90, randomness=2.5)
+
+    fig.text(0.50, 0.955, "30 DAYS INSIDE A EUROPEAN FINTECH  ·  8/8", ha="center", color=INK, fontsize=13, fontweight="bold")
+    fig.text(0.50, 0.885, "THE FINAL PAGE KEEPS\nTHREE DECISIONS.", ha="center", color=INK, fontsize=35, fontweight="bold", linespacing=1.0)
+    fig.text(0.50, 0.805, "one recommendation  ·  three owners  ·  explicit success measures", ha="center", color=INK, fontsize=14)
+
+    rough_card(0.06, 0.675, 0.88, 0.09, 3.0)
+    ax.text(0.09, 0.735, "DECISION", ha="left", color=INK, fontsize=10, fontweight="bold")
+    rough_line([0.09, 0.20], [0.725, 0.725], 1.8)
+    ax.text(0.09, 0.693, "PROTECT UNIT ECONOMICS", ha="left", color=INK, fontsize=20, fontweight="bold")
+    ax.text(0.52, 0.696, "without reversing intentional price investment", ha="left", color=INK, fontsize=10)
+
+    rows = [
+        (
+            0.505,
+            "01",
+            "FIX NOW  ·  C07 PRICING",
+            f"215 transfers  ·  ${leakage:,.2f} exposure",
+            "Owner  Pricing + Finance",
+            "Success  zero new shortfalls",
+        ),
+        (
+            0.350,
+            "02",
+            "CONTROL  ·  C13 / P04 SETTLEMENT",
+            f"{hotspot:.1f}% exceptions  ·  4.2% elsewhere",
+            "Owner  Payments Ops + Provider Mgmt",
+            "Success  inside control band, no backlog growth",
+        ),
+        (
+            0.195,
+            "03",
+            "TEST  ·  C01 ROUTING",
+            f"25% treatment  ·  +${scenario[0]:,.0f} contribution proxy",
+            "Owner  Product + Finance",
+            "Scale only if every guardrail holds",
+        ),
     ]
-    for x, y, tag, body, fill, accent in cards:
-        card(ax, x, y, 0.27, 0.17, fill)
-        ax.text(x + 0.025, y + 0.125, tag, color=accent, fontsize=10, fontweight="bold")
-        ax.text(x + 0.025, y + 0.055, body, color=INK, fontsize=13, fontweight="bold", linespacing=1.35)
 
-    card(ax, 0.07, 0.16, 0.86, 0.15, WHITE)
-    ax.text(0.11, 0.265, "EXPERIMENT GUARDRAILS", color=ORANGE, fontsize=10, fontweight="bold")
-    ax.text(0.11, 0.215, f"Instant rate\n{scenario[1]:+.2f} pp", color=INK, fontsize=13, fontweight="bold", linespacing=1.35)
-    ax.text(0.40, 0.215, f"Support rate\n{scenario[2]:+.2f} pp", color=INK, fontsize=13, fontweight="bold", linespacing=1.35)
-    ax.text(0.69, 0.215, "Reconciliation\nno worse", color=INK, fontsize=13, fontweight="bold", linespacing=1.35)
-    ax.text(0.11, 0.18, "The scenario is a hypothesis. Ship only after a controlled test clears the guardrails.", color=MUTED, fontsize=11)
+    for y, number, action, evidence, owner, success in rows:
+        rough_card(0.06, y, 0.88, 0.125)
+        ax.text(0.095, y + 0.073, number, ha="left", va="center", color=INK, fontsize=24, fontweight="bold")
+        rough_line([0.145, 0.145], [y + 0.025, y + 0.100], 1.8)
+        ax.text(0.175, y + 0.091, action, ha="left", color=INK, fontsize=11, fontweight="bold")
+        ax.text(0.175, y + 0.055, evidence, ha="left", color=INK, fontsize=14, fontweight="bold", family="monospace")
+        ax.text(0.175, y + 0.022, owner, ha="left", color=INK, fontsize=9.5)
+        ax.text(0.55, y + 0.022, success, ha="left", color=INK, fontsize=9.5)
+
+    ax.text(0.50, 0.115, "EVIDENCE BOUNDARIES", ha="center", color=INK, fontsize=11, fontweight="bold")
+    rough_line([0.38, 0.62], [0.105, 0.105], 1.8)
+    ax.text(0.50, 0.075, "not yet proven:  recovery amount  ·  provider cause  ·  production impact", ha="center", color=INK, fontsize=11)
+    fig.text(0.50, 0.035, "Synthetic transaction data  |  Independent simulation", ha="center", color=INK, fontsize=10)
+    fig.text(0.92, 0.035, "Victor Moraes Garlet", ha="right", color=INK, fontsize=10, fontweight="bold")
     save(fig, "episode_08_executive_decision.png")
 
 
