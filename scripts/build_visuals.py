@@ -544,36 +544,55 @@ def build_episode_06(connection):
 
 
 def build_episode_07():
-    fig, ax = base_figure(
-        7,
-        "An insight is unfinished until\nsomeone knows what to change.",
-        "Observed controls become actions. Descriptive trade-offs become experiments.",
-    )
-    matrix = fig.add_axes((0.14, 0.22, 0.72, 0.50), facecolor=WHITE)
-    matrix.set_xlim(0, 10)
-    matrix.set_ylim(0, 10)
-    matrix.spines[:].set_color(INK)
-    matrix.axvline(5, color=LINE, linewidth=1.5)
-    matrix.axhline(5, color=LINE, linewidth=1.5)
-    matrix.set_xticks([])
-    matrix.set_yticks([])
-    matrix.set_xlabel("Implementation effort  →", color=MUTED, labelpad=16)
-    matrix.set_ylabel("Decision confidence  →", color=MUTED, labelpad=16)
-    matrix.text(0.3, 9.4, "ACT NOW", color=PURPLE, fontsize=11, fontweight="bold")
-    matrix.text(5.3, 9.4, "PLAN AND CONTROL", color=INK, fontsize=11, fontweight="bold")
-    matrix.text(0.3, 4.4, "MONITOR", color=MUTED, fontsize=11, fontweight="bold")
-    matrix.text(5.3, 4.4, "TEST BEFORE SCALING", color=ORANGE, fontsize=11, fontweight="bold")
+    fig = plt.figure(figsize=(12, 15), facecolor=WHITE)
+    ax = fig.add_axes((0, 0, 1, 1))
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
 
-    actions = [
-        (2.0, 8.1, "Fix C07 pricing\nconfiguration", PURPLE),
-        (6.7, 7.4, "Repair C13/P04\nsettlement control", INK),
-        (6.8, 2.3, "Run C01 routing\nexperiment", ORANGE),
-        (2.2, 2.0, "Watch portfolio\nmix", MUTED),
+    def rough_card(x, y, width, height, linewidth=2.5):
+        patch = FancyBboxPatch(
+            (x, y),
+            width,
+            height,
+            boxstyle="round,pad=0.012,rounding_size=0.018",
+            linewidth=linewidth,
+            edgecolor=INK,
+            facecolor=WHITE,
+        )
+        patch.set_sketch_params(scale=1.2, length=90, randomness=2.5)
+        ax.add_patch(patch)
+
+    def rough_line(xs, ys, linewidth=2.2):
+        line, = ax.plot(xs, ys, color=INK, linewidth=linewidth)
+        line.set_sketch_params(scale=1.2, length=90, randomness=2.5)
+
+    fig.text(0.50, 0.955, "30 DAYS INSIDE A EUROPEAN FINTECH  ·  7/8", ha="center", color=INK, fontsize=13, fontweight="bold")
+    fig.text(0.50, 0.865, "FOUR FINDINGS.\nFOUR DIFFERENT ACTIONS.", ha="center", color=INK, fontsize=35, fontweight="bold", linespacing=1.0)
+    fig.text(0.50, 0.785, "one analysis  ·  four evidence-based responses", ha="center", color=INK, fontsize=15)
+
+    cards = [
+        (0.055, 0.525, "ACT NOW", "C07 PRICING CONFIG", "215 transfers  ·  $3,960.94 exposure", "correct rule + validate before close"),
+        (0.525, 0.525, "CONTROL NOW", "C13 / P04 SETTLEMENT", "39.7% exceptions  ·  4.2% elsewhere", "owner + reason codes + ageing"),
+        (0.055, 0.305, "MONITOR", "PORTFOLIO MIX", "+0.09 bps", "watch the trend  ·  no new project yet"),
+        (0.525, 0.305, "TEST BEFORE SCALING", "C01 ROUTING", "25% treatment  ·  +$265 contribution", "speed + support + reconciliation guardrails"),
     ]
-    for x, y, label, color in actions:
-        matrix.scatter(x, y, s=460, color=color, edgecolor=INK, linewidth=1.3, zorder=3)
-        matrix.text(x, y - 0.85, label, ha="center", va="top", fontsize=10, color=INK, fontweight="bold")
-    fig.text(0.50, 0.13, "Recommendation: stop the known leak first. Test the routing hypothesis second.", ha="center", color=INK, fontsize=16, fontweight="bold")
+    for index, (x, y, action, finding, evidence, response) in enumerate(cards):
+        rough_card(x, y, 0.42, 0.165, 3.2 if index == 0 else 2.5)
+        ax.text(x + 0.03, y + 0.132, action, ha="left", color=INK, fontsize=11, fontweight="bold")
+        rough_line([x + 0.03, x + 0.17], [y + 0.122, y + 0.122], 1.8)
+        ax.text(x + 0.03, y + 0.091, finding, ha="left", color=INK, fontsize=16, fontweight="bold")
+        ax.text(x + 0.03, y + 0.056, evidence, ha="left", color=INK, fontsize=11, family="monospace")
+        ax.text(x + 0.03, y + 0.023, response, ha="left", color=INK, fontsize=10)
+
+    rough_line([0.50, 0.50], [0.30, 0.70], 1.7)
+    rough_line([0.05, 0.95], [0.505, 0.505], 1.7)
+
+    ax.text(0.50, 0.205, "MATCH THE ACTION TO THE EVIDENCE.", ha="center", color=INK, fontsize=22, fontweight="bold")
+    rough_line([0.25, 0.75], [0.192, 0.192], 2.0)
+    ax.text(0.50, 0.155, "direct observation can support a fix  ·  comparison can support a test", ha="center", color=INK, fontsize=11)
+    fig.text(0.50, 0.075, "Synthetic transaction data  |  Independent simulation", ha="center", color=INK, fontsize=10)
+    fig.text(0.92, 0.035, "Victor Moraes Garlet", ha="right", color=INK, fontsize=10, fontweight="bold")
     save(fig, "episode_07_decision_matrix.png")
 
 

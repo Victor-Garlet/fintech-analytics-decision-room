@@ -37,7 +37,7 @@ class PublicContentTestCase(unittest.TestCase):
 
     def test_editorial_calendar_tracks_release_status(self):
         calendar = (PROJECT_ROOT / "content" / "editorial_calendar.md").read_text(encoding="utf-8")
-        self.assertEqual(calendar.count("Hold for approval"), 2)
+        self.assertEqual(calendar.count("Hold for approval"), 1)
         self.assertIn(
             "| 5 | Tue, 13 Oct 2026 | Decompose the take-rate movement | Waterfall | Scheduled for 08:00 Europe/Dublin |",
             calendar,
@@ -60,6 +60,10 @@ class PublicContentTestCase(unittest.TestCase):
         )
         self.assertIn(
             "| 6 | Fri, 16 Oct 2026 | Evaluate speed, cost and support | Trade-off chart | Scheduled for 08:00 Europe/Dublin |",
+            calendar,
+        )
+        self.assertIn(
+            "| 7 | Tue, 20 Oct 2026 | Convert findings into actions and a test | Decision matrix | Scheduled for 08:00 Europe/Dublin |",
             calendar,
         )
 
