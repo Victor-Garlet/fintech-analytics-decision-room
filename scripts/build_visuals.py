@@ -377,47 +377,87 @@ def build_episode_05(connection):
         order by component_order
         """
     ).fetchall()
-    fig, _ = base_figure(
-        5,
-        "Where did the basis points go?",
-        "H2 2025 baseline to H1 2026 comparison, weighted by transfer volume.",
+    values = {
+        code: {"label": label, "impact": impact, "running": running, "is_total": is_total}
+        for code, label, impact, running, is_total in rows
+    }
+    affected_transfers, leakage_usd = fetch_one(
+        connection,
+        """
+        select affected_transfers, fee_leakage_usd
+        from marts.mart_fee_leakage_hotspots
+        order by fee_leakage_usd desc
+        limit 1
+        """,
     )
-    ax = fig.add_axes((0.10, 0.22, 0.82, 0.49), facecolor=PAPER)
-    ax.spines[:].set_visible(False)
-    ax.grid(axis="y", color=LINE, linewidth=0.8)
-    ax.tick_params(axis="x", length=0, labelsize=9)
-    ax.tick_params(axis="y", colors=MUTED)
+    total_change = values["comparison"]["impact"] - values["baseline"]["impact"]
+    leakage_share = 100.0 * abs(values["fee_leakage"]["impact"] / total_change)
 
-    x = list(range(len(rows)))
-    bottoms = []
-    heights = []
-    colors = []
-    labels = []
-    prior = 0.0
-    for code, label, impact, running, is_total in rows:
-        labels.append(label.replace(" collected", "\ncollected").replace(" price", "\nprice").replace(" configuration", "\nconfiguration"))
-        if is_total:
-            bottoms.append(0)
-            heights.append(impact)
-            colors.append(INK if code == "comparison" else PURPLE)
-        else:
-            bottoms.append(min(prior, running))
-            heights.append(abs(impact))
-            colors.append(PURPLE if impact >= 0 or code == "approved_price_investment" else ORANGE)
-        prior = running
-    bars = ax.bar(x, heights, bottom=bottoms, color=colors, width=0.66)
-    for i in range(1, len(rows) - 1):
-        previous_running = rows[i - 1][3]
-        ax.plot([i - 0.67, i - 0.33], [previous_running, previous_running], color=MUTED, linewidth=1)
-    for bar, row in zip(bars, rows):
-        code, _, impact, running, is_total = row
-        label = f"{impact:.2f}" if is_total else f"{impact:+.2f}"
-        y = bar.get_y() + bar.get_height() + 0.22
-        ax.text(bar.get_x() + bar.get_width() / 2, y, label, ha="center", fontweight="bold", color=ORANGE if code == "fee_leakage" else INK)
-    ax.set_xticks(x, labels)
-    ax.set_ylabel("Basis points", color=MUTED)
-    ax.set_ylim(0, 55)
-    fig.text(0.50, 0.135, "-2.18 bps total  |  -1.67 bps from one pricing configuration issue", ha="center", color=INK, fontsize=17, fontweight="bold")
+    fig = plt.figure(figsize=(12, 15), facecolor=WHITE)
+    ax = fig.add_axes((0, 0, 1, 1))
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
+
+    def rough_card(x, y, width, height, linewidth=2.5):
+        patch = FancyBboxPatch(
+            (x, y),
+            width,
+            height,
+            boxstyle="round,pad=0.012,rounding_size=0.018",
+            linewidth=linewidth,
+            edgecolor=INK,
+            facecolor=WHITE,
+        )
+        patch.set_sketch_params(scale=1.2, length=90, randomness=2.5)
+        ax.add_patch(patch)
+
+    def rough_line(xs, ys, linewidth=2.2):
+        line, = ax.plot(xs, ys, color=INK, linewidth=linewidth)
+        line.set_sketch_params(scale=1.2, length=90, randomness=2.5)
+
+    fig.text(0.50, 0.955, "30 DAYS INSIDE A EUROPEAN FINTECH  ·  5/8", ha="center", color=INK, fontsize=13, fontweight="bold")
+    fig.text(0.50, 0.865, "THE KPI FELL 2.18 BPS.\nTHE CAUSES NEEDED DIFFERENT ACTIONS.", ha="center", color=INK, fontsize=30, fontweight="bold", linespacing=1.0)
+    fig.text(0.50, 0.785, "weighted H2 2025  →  H1 2026", ha="center", color=INK, fontsize=15)
+
+    rough_card(0.08, 0.615, 0.30, 0.11, 3.0)
+    ax.text(0.23, 0.685, "START", ha="center", color=INK, fontsize=12, fontweight="bold")
+    ax.text(0.23, 0.64, f"{values['baseline']['impact']:.2f} BPS", ha="center", color=INK, fontsize=26, fontweight="bold")
+
+    rough_line([0.38, 0.62], [0.67, 0.67], 2.7)
+    ax.text(0.50, 0.69, f"{total_change:.2f} BPS", ha="center", color=INK, fontsize=17, fontweight="bold")
+    ax.text(0.615, 0.67, "→", ha="center", va="center", color=INK, fontsize=22, fontweight="bold")
+
+    rough_card(0.62, 0.615, 0.30, 0.11, 3.0)
+    ax.text(0.77, 0.685, "END", ha="center", color=INK, fontsize=12, fontweight="bold")
+    ax.text(0.77, 0.64, f"{values['comparison']['impact']:.2f} BPS", ha="center", color=INK, fontsize=26, fontweight="bold")
+
+    components = [
+        (0.055, "MIX", values["portfolio_mix"]["impact"], "portfolio shift"),
+        (0.285, "LIST YIELD", values["within_cell_yield"]["impact"], "within segment"),
+        (0.515, "PRICE INVESTMENT", values["approved_price_investment"]["impact"], "approved"),
+        (0.745, "FEE LEAKAGE", values["fee_leakage"]["impact"], "unexpected"),
+    ]
+    for x, heading, impact, note in components:
+        rough_card(x, 0.425, 0.20, 0.115, 3.2 if heading == "FEE LEAKAGE" else 2.2)
+        ax.text(x + 0.10, 0.505, heading, ha="center", color=INK, fontsize=10, fontweight="bold")
+        ax.text(x + 0.10, 0.465, f"{impact:+.2f}", ha="center", color=INK, fontsize=21, fontweight="bold", family="monospace")
+        ax.text(x + 0.10, 0.438, note, ha="center", color=INK, fontsize=9)
+
+    rough_card(0.08, 0.255, 0.38, 0.09, 2.8)
+    ax.text(0.27, 0.312, "PROTECT THE PRICE DECISION", ha="center", color=INK, fontsize=13, fontweight="bold")
+    ax.text(0.27, 0.277, "evaluate customer and growth outcomes", ha="center", color=INK, fontsize=10)
+
+    rough_card(0.54, 0.255, 0.38, 0.09, 2.8)
+    ax.text(0.73, 0.312, "FIX THE CONTROL FAILURE", ha="center", color=INK, fontsize=13, fontweight="bold")
+    ax.text(0.73, 0.277, "reconcile records and test before close", ha="center", color=INK, fontsize=10)
+
+    ax.text(0.50, 0.19, f"{leakage_share:.0f}% OF THE NET DECLINE CAME FROM LEAKAGE.", ha="center", color=INK, fontsize=19, fontweight="bold")
+    rough_line([0.28, 0.72], [0.177, 0.177], 2.0)
+    ax.text(0.50, 0.145, f"{affected_transfers} affected transfers  ·  ${leakage_usd:,.2f} synthetic exposure", ha="center", color=INK, fontsize=10)
+    ax.text(0.50, 0.125, "components rounded for display  ·  unrounded bridge residual < 0.000001 bps", ha="center", color=INK, fontsize=9)
+    fig.text(0.50, 0.075, "Synthetic transaction data  |  Independent simulation", ha="center", color=INK, fontsize=10)
+    fig.text(0.92, 0.035, "Victor Moraes Garlet", ha="right", color=INK, fontsize=10, fontweight="bold")
     save(fig, "episode_05_take_rate_waterfall.png")
 
 
