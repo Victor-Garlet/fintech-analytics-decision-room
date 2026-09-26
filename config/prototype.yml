@@ -1,0 +1,15 @@
+project:
+  name: "30 Days Inside a European Fintech"
+  seed: 20260924
+  period_start: "2025-07-01"
+  period_end: "2026-06-30"
+  customer_count: 3500
+  transfer_count: 10000
+  output_directory: "data/prototype"
+
+generation:
+  completed_transfer_probability: 0.984
+  support_contact_base_probability: 0.020
+  refund_probability: 0.006
+  reconciliation_tolerance_usd: 0.50
+  instant_threshold_seconds: 20

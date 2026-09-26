@@ -1,0 +1,220 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: Clean customer dimension with one row per synthetic customer.
+    columns:
+      - name: customer_id
+        description: Stable synthetic customer key.
+        data_tests: [not_null, unique]
+      - name: customer_type
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [personal, business]
+      - name: customer_segment
+        data_tests: [not_null]
+      - name: signup_date
+        data_tests: [not_null]
+
+  - name: stg_corridors
+    description: Clean corridor dimension at one source-target route per row.
+    columns:
+      - name: corridor_id
+        data_tests: [not_null, unique]
+      - name: source_currency
+        data_tests: [not_null]
+      - name: target_currency
+        data_tests: [not_null]
+
+  - name: stg_providers
+    description: Fictional payment-provider dimension.
+    columns:
+      - name: provider_id
+        data_tests: [not_null, unique]
+      - name: provider_name
+        data_tests: [not_null, unique]
+
+  - name: stg_pricing_rules
+    description: Price rules by corridor, customer segment and effective window.
+    columns:
+      - name: pricing_rule_id
+        data_tests: [not_null, unique]
+      - name: corridor_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_corridors')
+                field: corridor_id
+      - name: customer_segment
+        data_tests: [not_null]
+
+  - name: stg_quotes
+    description: Accepted quotes used to initiate the synthetic transfer flow.
+    columns:
+      - name: quote_id
+        data_tests: [not_null, unique]
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
+      - name: corridor_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_corridors')
+                field: corridor_id
+      - name: pricing_rule_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_pricing_rules')
+                field: pricing_rule_id
+      - name: volume_usd
+        data_tests: [not_null]
+
+  - name: stg_transfers
+    description: Transfer fact table containing completed and cancelled attempts.
+    columns:
+      - name: transfer_id
+        data_tests: [not_null, unique]
+      - name: quote_id
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('stg_quotes')
+                field: quote_id
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
+      - name: corridor_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_corridors')
+                field: corridor_id
+      - name: provider_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_providers')
+                field: provider_id
+      - name: transfer_status
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [completed, cancelled]
+
+  - name: stg_fees
+    description: Fee outcome for each completed transfer.
+    columns:
+      - name: fee_id
+        data_tests: [not_null, unique]
+      - name: transfer_id
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('stg_transfers')
+                field: transfer_id
+      - name: fee_outcome
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [as_expected, approved_price_investment, unexpected_shortfall]
+
+  - name: stg_provider_costs
+    description: Provider cost assigned to each completed transfer.
+    columns:
+      - name: provider_cost_id
+        data_tests: [not_null, unique]
+      - name: transfer_id
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('stg_transfers')
+                field: transfer_id
+      - name: provider_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_providers')
+                field: provider_id
+      - name: routing_tier
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [standard, priority]
+
+  - name: stg_settlements
+    description: Expected and actual settlement outcome for each completed transfer.
+    columns:
+      - name: settlement_id
+        data_tests: [not_null, unique]
+      - name: transfer_id
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('stg_transfers')
+                field: transfer_id
+      - name: provider_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_providers')
+                field: provider_id
+      - name: settlement_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [matched, late, amount_mismatch, missing]
+
+  - name: stg_support_contacts
+    description: Optional operational support contact linked to a transfer.
+    columns:
+      - name: support_contact_id
+        data_tests: [not_null, unique]
+      - name: transfer_id
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('stg_transfers')
+                field: transfer_id
+
+  - name: stg_refunds
+    description: Optional refund linked to a completed transfer.
+    columns:
+      - name: refund_id
+        data_tests: [not_null, unique]
+      - name: transfer_id
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('stg_transfers')
+                field: transfer_id

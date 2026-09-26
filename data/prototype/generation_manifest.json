@@ -1,0 +1,21 @@
+{
+  "project": "30 Days Inside a European Fintech",
+  "seed": 20260924,
+  "period_start": "2025-07-01",
+  "period_end": "2026-06-30",
+  "config_sha256": "264504bee48db814f5353671c451710121edc186b7ebe1c53dff58a02608b11c",
+  "row_counts": {
+    "customers": 3500,
+    "corridors": 20,
+    "providers": 6,
+    "pricing_rules": 80,
+    "quotes": 10000,
+    "transfers": 10000,
+    "fees": 9851,
+    "provider_costs": 9851,
+    "settlements": 9851,
+    "support_contacts": 404,
+    "refunds": 50
+  },
+  "synthetic_data": true
+}

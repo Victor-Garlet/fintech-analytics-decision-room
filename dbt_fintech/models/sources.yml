@@ -1,0 +1,78 @@
+version: 2
+
+sources:
+  - name: raw
+    description: Deterministic synthetic source tables loaded from the prototype CSV files.
+    schema: raw
+    tables:
+      - name: customers
+        description: One row per synthetic customer.
+        columns:
+          - name: customer_id
+            data_tests: [not_null, unique]
+      - name: corridors
+        description: One row per synthetic cross-border corridor.
+        columns:
+          - name: corridor_id
+            data_tests: [not_null, unique]
+      - name: providers
+        description: One row per fictional payment provider.
+        columns:
+          - name: provider_id
+            data_tests: [not_null, unique]
+      - name: pricing_rules
+        description: One row per corridor and customer-segment pricing rule.
+        columns:
+          - name: pricing_rule_id
+            data_tests: [not_null, unique]
+      - name: quotes
+        description: One row per accepted synthetic quote.
+        columns:
+          - name: quote_id
+            data_tests: [not_null, unique]
+      - name: transfers
+        description: One row per attempted synthetic cross-border transfer.
+        columns:
+          - name: transfer_id
+            data_tests: [not_null, unique]
+          - name: transfer_status
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: [completed, cancelled]
+      - name: fees
+        description: One row per fee outcome for a completed transfer.
+        columns:
+          - name: fee_id
+            data_tests: [not_null, unique]
+          - name: transfer_id
+            data_tests: [not_null, unique]
+      - name: provider_costs
+        description: One row per provider-cost outcome for a completed transfer.
+        columns:
+          - name: provider_cost_id
+            data_tests: [not_null, unique]
+          - name: transfer_id
+            data_tests: [not_null, unique]
+      - name: settlements
+        description: One expected settlement per completed transfer, including missing outcomes.
+        columns:
+          - name: settlement_id
+            data_tests: [not_null, unique]
+          - name: transfer_id
+            data_tests: [not_null, unique]
+          - name: settlement_status
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: [matched, late, amount_mismatch, missing]
+      - name: support_contacts
+        description: Zero or one generated support contact per transfer in the prototype.
+        columns:
+          - name: support_contact_id
+            data_tests: [not_null, unique]
+      - name: refunds
+        description: Zero or one generated refund per completed transfer in the prototype.
+        columns:
+          - name: refund_id
+            data_tests: [not_null, unique]

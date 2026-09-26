@@ -1,0 +1,6 @@
+numpy>=1.24,<2.5
+pandas>=1.5,<3
+PyYAML>=6,<7
+duckdb==1.5.5
+dbt-core==1.12.5
+dbt-duckdb==1.11.0

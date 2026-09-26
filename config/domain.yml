@@ -1,0 +1,42 @@
+currencies:
+  GBP: 1.2800
+  EUR: 1.0900
+  USD: 1.0000
+  BRL: 0.1800
+  INR: 0.0120
+  PLN: 0.2500
+  HUF: 0.0028
+  SGD: 0.7400
+  AED: 0.2723
+  MXN: 0.0580
+  CAD: 0.7400
+
+providers:
+  - {provider_id: P01, provider_name: "Northstar Payments", base_cost_bps: 6.0, base_settlement_hours: 8}
+  - {provider_id: P02, provider_name: "Meridian Rail", base_cost_bps: 7.0, base_settlement_hours: 5}
+  - {provider_id: P03, provider_name: "Atlas Local", base_cost_bps: 8.0, base_settlement_hours: 12}
+  - {provider_id: P04, provider_name: "Harbour Network", base_cost_bps: 9.0, base_settlement_hours: 18}
+  - {provider_id: P05, provider_name: "Juniper Money", base_cost_bps: 5.5, base_settlement_hours: 10}
+  - {provider_id: P06, provider_name: "Cobalt Clearing", base_cost_bps: 7.5, base_settlement_hours: 14}
+
+corridors:
+  - {corridor_id: C01, source_country: GB, target_country: DE, source_currency: GBP, target_currency: EUR, transfer_weight: 0.075, variable_fee_bps: 48, fixed_fee_usd: 0.45, expected_instant_rate: 0.78, corridor_cost_bps: 1.0}
+  - {corridor_id: C02, source_country: DE, target_country: GB, source_currency: EUR, target_currency: GBP, transfer_weight: 0.060, variable_fee_bps: 49, fixed_fee_usd: 0.45, expected_instant_rate: 0.76, corridor_cost_bps: 1.2}
+  - {corridor_id: C03, source_country: IE, target_country: PL, source_currency: EUR, target_currency: PLN, transfer_weight: 0.050, variable_fee_bps: 53, fixed_fee_usd: 0.40, expected_instant_rate: 0.72, corridor_cost_bps: 1.8}
+  - {corridor_id: C04, source_country: FR, target_country: US, source_currency: EUR, target_currency: USD, transfer_weight: 0.050, variable_fee_bps: 47, fixed_fee_usd: 0.50, expected_instant_rate: 0.70, corridor_cost_bps: 1.6}
+  - {corridor_id: C05, source_country: US, target_country: GB, source_currency: USD, target_currency: GBP, transfer_weight: 0.055, variable_fee_bps: 46, fixed_fee_usd: 0.55, expected_instant_rate: 0.73, corridor_cost_bps: 1.4}
+  - {corridor_id: C06, source_country: ES, target_country: BR, source_currency: EUR, target_currency: BRL, transfer_weight: 0.050, variable_fee_bps: 61, fixed_fee_usd: 0.65, expected_instant_rate: 0.58, corridor_cost_bps: 3.5}
+  - {corridor_id: C07, source_country: DE, target_country: PL, source_currency: EUR, target_currency: PLN, transfer_weight: 0.085, variable_fee_bps: 52, fixed_fee_usd: 0.40, expected_instant_rate: 0.74, corridor_cost_bps: 1.7}
+  - {corridor_id: C08, source_country: NL, target_country: IN, source_currency: EUR, target_currency: INR, transfer_weight: 0.050, variable_fee_bps: 60, fixed_fee_usd: 0.60, expected_instant_rate: 0.62, corridor_cost_bps: 3.2}
+  - {corridor_id: C09, source_country: GB, target_country: IN, source_currency: GBP, target_currency: INR, transfer_weight: 0.060, variable_fee_bps: 58, fixed_fee_usd: 0.60, expected_instant_rate: 0.66, corridor_cost_bps: 3.0}
+  - {corridor_id: C10, source_country: SG, target_country: GB, source_currency: SGD, target_currency: GBP, transfer_weight: 0.040, variable_fee_bps: 50, fixed_fee_usd: 0.50, expected_instant_rate: 0.69, corridor_cost_bps: 2.2}
+  - {corridor_id: C11, source_country: AE, target_country: IN, source_currency: AED, target_currency: INR, transfer_weight: 0.045, variable_fee_bps: 56, fixed_fee_usd: 0.55, expected_instant_rate: 0.65, corridor_cost_bps: 2.8}
+  - {corridor_id: C12, source_country: US, target_country: MX, source_currency: USD, target_currency: MXN, transfer_weight: 0.045, variable_fee_bps: 55, fixed_fee_usd: 0.55, expected_instant_rate: 0.61, corridor_cost_bps: 2.6}
+  - {corridor_id: C13, source_country: BR, target_country: PT, source_currency: BRL, target_currency: EUR, transfer_weight: 0.080, variable_fee_bps: 65, fixed_fee_usd: 0.70, expected_instant_rate: 0.52, corridor_cost_bps: 4.0}
+  - {corridor_id: C14, source_country: CA, target_country: US, source_currency: CAD, target_currency: USD, transfer_weight: 0.040, variable_fee_bps: 45, fixed_fee_usd: 0.45, expected_instant_rate: 0.77, corridor_cost_bps: 1.0}
+  - {corridor_id: C15, source_country: PL, target_country: GB, source_currency: PLN, target_currency: GBP, transfer_weight: 0.040, variable_fee_bps: 54, fixed_fee_usd: 0.45, expected_instant_rate: 0.68, corridor_cost_bps: 2.0}
+  - {corridor_id: C16, source_country: HU, target_country: DE, source_currency: HUF, target_currency: EUR, transfer_weight: 0.035, variable_fee_bps: 57, fixed_fee_usd: 0.45, expected_instant_rate: 0.64, corridor_cost_bps: 2.4}
+  - {corridor_id: C17, source_country: IE, target_country: US, source_currency: EUR, target_currency: USD, transfer_weight: 0.045, variable_fee_bps: 48, fixed_fee_usd: 0.50, expected_instant_rate: 0.71, corridor_cost_bps: 1.5}
+  - {corridor_id: C18, source_country: ES, target_country: GB, source_currency: EUR, target_currency: GBP, transfer_weight: 0.045, variable_fee_bps: 50, fixed_fee_usd: 0.45, expected_instant_rate: 0.73, corridor_cost_bps: 1.5}
+  - {corridor_id: C19, source_country: GB, target_country: AE, source_currency: GBP, target_currency: AED, transfer_weight: 0.040, variable_fee_bps: 59, fixed_fee_usd: 0.60, expected_instant_rate: 0.60, corridor_cost_bps: 3.0}
+  - {corridor_id: C20, source_country: US, target_country: BR, source_currency: USD, target_currency: BRL, transfer_weight: 0.050, variable_fee_bps: 62, fixed_fee_usd: 0.65, expected_instant_rate: 0.56, corridor_cost_bps: 3.8}

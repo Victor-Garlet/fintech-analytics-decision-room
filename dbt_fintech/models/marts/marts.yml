@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: mart_transfer_unit_economics
+    description: Public-facing transfer-level mart for drill-down and auditability.
+    columns:
+      - name: transfer_id
+        data_tests: [not_null, unique]
+
+  - name: mart_executive_kpis
+    description: Monthly executive scorecard using the transfer completion cohort.
+    columns:
+      - name: completion_month
+        data_tests: [not_null, unique]
+      - name: completed_transfers
+        data_tests: [not_null]
+      - name: cross_border_volume_usd
+        data_tests: [not_null]
+      - name: collected_take_rate_bps
+        data_tests: [not_null]
+      - name: contribution_margin_proxy_usd
+        data_tests: [not_null]
+
+  - name: mart_corridor_performance
+    description: Monthly commercial and operational performance by transfer corridor.
+    columns:
+      - name: completion_month
+        data_tests: [not_null]
+      - name: corridor_id
+        data_tests: [not_null]
+      - name: completed_transfers
+        data_tests: [not_null]
+
+  - name: mart_provider_performance
+    description: Monthly speed, cost and support trade-offs by provider and routing tier.
+    columns:
+      - name: completion_month
+        data_tests: [not_null]
+      - name: provider_id
+        data_tests: [not_null]
+      - name: routing_tier
+        data_tests: [not_null]
+
+  - name: mart_reconciliation_exceptions
+    description: Investigation queue containing only reconciliation exceptions.
+    columns:
+      - name: transfer_id
+        data_tests: [not_null, unique]
+      - name: settlement_status
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [late, amount_mismatch, missing]

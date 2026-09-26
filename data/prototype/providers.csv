@@ -1,0 +1,7 @@
+provider_id,provider_name,base_cost_bps,base_settlement_hours
+P01,Northstar Payments,6.000000,8
+P02,Meridian Rail,7.000000,5
+P03,Atlas Local,8.000000,12
+P04,Harbour Network,9.000000,18
+P05,Juniper Money,5.500000,10
+P06,Cobalt Clearing,7.500000,14

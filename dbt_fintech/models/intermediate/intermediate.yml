@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: int_transfer_unit_economics
+    description: >-
+      Completed-transfer analytical spine joining price, cost and operational
+      signals at one row per transfer.
+    columns:
+      - name: transfer_id
+        description: Primary grain of the model.
+        data_tests: [not_null, unique]
+      - name: completion_month
+        data_tests: [not_null]
+      - name: volume_usd
+        data_tests: [not_null]
+      - name: collected_fee_usd
+        data_tests: [not_null]
+      - name: provider_cost_usd
+        data_tests: [not_null]
+      - name: contribution_margin_proxy_usd
+        description: Collected fee less provider and estimated support costs.
+        data_tests: [not_null]
+
+  - name: int_reconciliation_bridge
+    description: >-
+      Bridge between customer-facing completion time and finance settlement
+      time, preserving missing and cross-month outcomes.
+    columns:
+      - name: transfer_id
+        data_tests: [not_null, unique]
+      - name: completion_month
+        data_tests: [not_null]
+      - name: settlement_status
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [matched, late, amount_mismatch, missing]
+      - name: reporting_period_alignment
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [same-month, cross-month, missing settlement]

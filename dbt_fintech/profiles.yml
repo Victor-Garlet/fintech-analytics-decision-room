@@ -1,0 +1,8 @@
+fintech_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "../data/warehouse/fintech_analytics.duckdb"
+      schema: analytics
+      threads: 4

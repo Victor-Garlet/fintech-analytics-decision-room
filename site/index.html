@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A public Senior Data Analyst simulation inside a European payments fintech."
+    />
+    <title>30 Days Inside a European Fintech</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to the case</a>
+
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Decision Room home">
+        <span class="brand-mark" aria-hidden="true">DR</span>
+        <span>Decision Room</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#decision">Decision</a>
+        <a href="#evidence">Evidence</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#roadmap">Cases</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow">Independent portfolio case · Build in progress</p>
+          <h1>30 Days Inside a<br /><span>European Fintech</span></h1>
+          <p class="hero-lede">
+            One synthetic payments business. One decision under pressure. A traceable path
+            from raw events to a recommendation that Finance, Product and Operations can challenge.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#decision">Enter the decision room</a>
+            <a class="button button-secondary" href="#architecture">Inspect the build</a>
+          </div>
+        </div>
+
+        <aside class="case-file" aria-label="Current case status">
+          <div class="case-file-head">
+            <span>Case file</span>
+            <span class="status"><i aria-hidden="true"></i> active</span>
+          </div>
+          <p class="case-number">01 / 08</p>
+          <h2>The margin behind the speed</h2>
+          <dl>
+            <div><dt>Question</dt><dd>Price ↓ · Speed ↑ · What happens to sustainable economics?</dd></div>
+            <div><dt>Evidence</dt><dd>Metric layer validated</dd></div>
+            <div><dt>Next move</dt><dd>Reconcile two valid versions of the month</dd></div>
+          </dl>
+          <div class="stamp">Synthetic<br />simulation</div>
+        </aside>
+      </section>
+
+      <section class="proof-strip" aria-label="Build evidence">
+        <div><strong>10,000</strong><span>transfer attempts</span></div>
+        <div><strong>20</strong><span>currency corridors</span></div>
+        <div><strong>18</strong><span>dbt models</span></div>
+        <div><strong>145</strong><span>automated tests</span></div>
+      </section>
+
+      <section class="section decision" id="decision">
+        <div class="section-label">01 · Decision at risk</div>
+        <div class="decision-grid">
+          <div>
+            <h2>Lower take rate can be a strategy.<br />Or a leak.</h2>
+            <p>
+              A headline movement does not tell a decision-maker whether the business deliberately
+              invested in customer price, changed its mix, lost fees unexpectedly or simply counted
+              two events in different periods.
+            </p>
+          </div>
+          <blockquote>
+            “How can a payments fintech lower prices and improve transfer speed without losing
+            control of unit economics?”
+          </blockquote>
+        </div>
+        <div class="question-grid">
+          <article><span>01</span><h3>Expected or broken?</h3><p>Separate deliberate price investment from avoidable fee leakage.</p></article>
+          <article><span>02</span><h3>Fast or sustainable?</h3><p>Measure whether speed gains justify provider and service cost.</p></article>
+          <article><span>03</span><h3>Different or wrong?</h3><p>Bridge completion and settlement views before choosing one truth.</p></article>
+        </div>
+      </section>
+
+      <section class="section evidence-section" id="evidence">
+        <div class="section-label">02 · Evidence boundary</div>
+        <div class="section-heading">
+          <h2>Every claim wears a label.</h2>
+          <p>Use the controls to see what can, and cannot, be inferred from each evidence type.</p>
+        </div>
+        <div class="evidence-controls" role="group" aria-label="Filter evidence types">
+          <button class="filter is-active" type="button" data-filter="all">All evidence</button>
+          <button class="filter" type="button" data-filter="public">Public fact</button>
+          <button class="filter" type="button" data-filter="assumption">Project assumption</button>
+          <button class="filter" type="button" data-filter="synthetic">Synthetic result</button>
+        </div>
+        <div class="evidence-grid">
+          <article class="evidence-card" data-kind="public">
+            <span class="tag tag-public">Public fact</span>
+            <h3>Company-level context</h3>
+            <p>Official disclosures can motivate the question. They do not validate a fictional transaction-level diagnosis.</p>
+          </article>
+          <article class="evidence-card" data-kind="assumption">
+            <span class="tag tag-assumption">Project assumption</span>
+            <h3>Transparent modelling choice</h3>
+            <p>A 20-second instant threshold and USD-normalised economics make the simulation coherent and reviewable.</p>
+          </article>
+          <article class="evidence-card" data-kind="synthetic">
+            <span class="tag tag-synthetic">Synthetic result</span>
+            <h3>Evidence inside the case</h3>
+            <p>Patterns from generated transfers can support a simulated recommendation, never a claim about Wise.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section architecture" id="architecture">
+        <div class="section-label">03 · Traceable architecture</div>
+        <div class="section-heading">
+          <h2>A number is only useful when someone can challenge it.</h2>
+          <p>The stack is deliberately small. Each layer removes a specific kind of decision risk.</p>
+        </div>
+        <ol class="pipeline">
+          <li><span>01</span><div><b>Synthetic events</b><small>Deterministic, referentially consistent</small></div></li>
+          <li><span>02</span><div><b>DuckDB raw layer</b><small>Faithful, local, inspectable</small></div></li>
+          <li><span>03</span><div><b>dbt trust layer</b><small>Types, contracts, 145 tests</small></div></li>
+          <li><span>04</span><div><b>Decision marts</b><small>Reconciliation and unit economics</small></div></li>
+          <li><span>05</span><div><b>Action</b><small>Recommendation, guardrails, follow-up</small></div></li>
+        </ol>
+        <div class="quality-callout">
+          <span class="quality-score">163 / 163</span>
+          <div><strong>Latest build passed</strong><p>Models and tests executed together as one quality gate.</p></div>
+        </div>
+      </section>
+
+      <section class="section roadmap" id="roadmap">
+        <div class="section-label">04 · Investigation map</div>
+        <div class="section-heading">
+          <h2>Eight cases. One accumulating decision.</h2>
+          <p>Each episode adds enough context to stand alone without pretending the conclusion was known in advance.</p>
+        </div>
+        <div class="case-grid">
+          <article class="case-card current"><span>01</span><p>Frame the decision</p><small>Current release</small></article>
+          <article class="case-card"><span>02</span><p>Build credible synthetic evidence</p><small>Foundation</small></article>
+          <article class="case-card"><span>03</span><p>Resolve metric definitions</p><small>Trust</small></article>
+          <article class="case-card"><span>04</span><p>Reconcile exceptions</p><small>Control</small></article>
+          <article class="case-card"><span>05</span><p>Decompose take rate</p><small>Diagnosis</small></article>
+          <article class="case-card"><span>06</span><p>Test speed versus cost</p><small>Trade-off</small></article>
+          <article class="case-card"><span>07</span><p>Design the intervention</p><small>Action</small></article>
+          <article class="case-card"><span>08</span><p>Defend the recommendation</p><small>Decision</small></article>
+        </div>
+      </section>
+
+      <section class="closing">
+        <p class="eyebrow">The operating principle</p>
+        <h2>Do not make the dashboard persuasive.<br /><span>Make the decision defensible.</span></h2>
+      </section>
+    </main>
+
+    <footer>
+      <p><strong>Independent portfolio simulation by Victor Moraes Garlet.</strong></p>
+      <p>
+        Wise is used only as public business context. All transaction-level data, findings and
+        recommendations are fictional and do not represent Wise or its internal operations.
+      </p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
