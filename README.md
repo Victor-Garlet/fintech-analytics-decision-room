@@ -1,87 +1,82 @@
 # Fintech Analytics Decision Room
 
-**A payments analytics case, from a messy KPI to a decision someone can check.**
+**One falling metric. Several possible causes. Which one deserves action?**
 
-Imagine a European fintech that is lowering transfer prices and making payments faster. Its collected take rate falls. Is that an intended investment in customers, a fee configuration error, a change in customer mix, or several things at once?
+I built this independent payments analytics case to follow a decision from the first business question to a recommendation. The setting was inspired by [Wise's public disclosures](docs/source_register.md), but the customers, transfers, providers, analysis and findings here are **synthetic**. This is not a study of Wise's internal operations, and I have no affiliation with Wise.
 
-I built this independent simulation to work through that question. Wise's [public disclosures](docs/source_register.md) inspired the setting. **The customers, transfers, providers, findings and recommendations in this repository are fictional.** I have no affiliation with Wise or access to its internal data.
+The question: **How can a payments fintech lower prices and make transfers faster without losing sight of its unit economics and operational controls?**
 
-## The decision in 30 seconds
+## The answer in a minute
 
-In the **synthetic** H2 2025 to H1 2026 comparison, collected take rate went from **50.23 to 48.05 basis points**. The bridge separates an intentional **0.57 bp** price investment from **1.67 bps** of unexpected fee leakage in one corridor and customer segment. The simulation also exposes a settlement exception hotspot. A faster route costs more, but the observational comparison does not justify moving traffic without a test.
+In this simulation, collected take rate fell from **50.23 to 48.05 basis points**. Part of that movement was an approved price reduction; another part was an unexpected fee configuration fault. A separate settlement issue was concentrated on one provider route. The fastest route also cost more, but its observed results were not enough to justify switching providers outright.
 
-**My recommendation:** correct the fee configuration, repair the settlement control, then test a limited routing change with customer and operational guardrails. [Read the one-page decision memo](reports/executive_memo.md).
+My decision was to **fix the two observed controls and test the routing idea**. The [executive memo](reports/executive_memo.md) gives the short version. The six steps below show how I got there.
 
-## Pick your route
+## 1. Frame the decision
 
-| If you have... | Start here |
+A lower take rate is a signal, not a diagnosis. Before analysing transfers, I wrote down the questions that would change the decision: how much came from intended price investment, whether Finance and Operations were counting different events, where exceptions were concentrated, and whether more speed justified more cost.
+
+That scope and the initial hypotheses are in the [case brief](docs/project_charter.md). The [source register](docs/source_register.md) separates public company context from project assumptions and synthetic results.
+
+## 2. Build evidence I can inspect
+
+I generated a connected payments dataset with **10,000 transfer attempts**, **3,500 customers** and **11 source tables** across **20 corridors**. A fixed seed and published [scenario settings](config/scenarios.yml) make the injected patterns explicit. This is a designed analytical exercise; the problems shown in the data were not discovered at a real company.
+
+![Relationship map of the synthetic customer, quote, transfer, fee, settlement, cost and support data](assets/02-data-model.svg)
+
+The [generator](src/fintech_sim/generator.py) creates the records, the [data dictionary](docs/data_dictionary.md) defines their grains and keys, and the [snapshot validation](reports/prototype_validation.md) checks the relationships and scenario patterns.
+
+## 3. Settle the meaning of the numbers
+
+The first modelling choice was about time. Operations sees a transfer when it completes; Finance can see the settlement in a different month. A monthly total without its event timestamp invites a false disagreement.
+
+![Illustrative transfer completed in June and settled in July, counted in different reporting months](assets/03-two-clocks.svg)
+
+I kept both clocks, then connected them with a [reporting-period bridge](dbt_fintech/models/marts/mart_reporting_period_reconciliation.sql). I also kept list fee, approved reduction, expected fee and collected fee as separate amounts. The [metric contract](docs/metric_contract.md) records the formulas, populations and tolerances; the [bridge test](dbt_fintech/tests/assert_reporting_period_bridge_reconciles.sql) checks that the monthly views reconcile.
+
+## 4. Build the analytical layer
+
+I loaded the source records into DuckDB, typed them in dbt, joined costs and fees at transfer grain, and only then aggregated them for decisions. This order keeps a plausible-looking dashboard from hiding a join or timing error.
+
+![Flow from synthetic CSV tables through DuckDB and dbt models to decision marts, with quality checks](assets/04-model-flow.svg)
+
+The [architecture](docs/architecture.md) explains each layer. You can inspect the [staging models](dbt_fintech/models/staging), the [transfer-level economic model](dbt_fintech/models/intermediate/int_transfer_unit_economics.sql), the [decision marts](dbt_fintech/models/marts) and the [business-rule tests](dbt_fintech/tests). The recorded validation run passed **23 models and 168 data tests**, or **191 of 191 build steps**. [See the validation evidence](reports/metric_layer_validation.md).
+
+## 5. Find what actually moved
+
+The headline decline was **2.18 bps** between H2 2025 and H1 2026. A volume-weighted bridge showed that **0.57 bp** was approved lower pricing, while **1.67 bps** came from a fee configuration shortfall. Mix and list-price yield nearly cancelled each other. Treating the full decline as a pricing failure would undo an intended customer benefit and miss the faulty rule.
+
+![Signed take-rate impacts showing intended price investment separately from unexpected fee leakage](assets/05-take-rate-bridge.svg)
+
+Two more findings changed the next action:
+
+| Evidence from the synthetic dataset | What it means for the decision |
 | --- | --- |
-| 2 minutes | [The recommendation and its limits](reports/executive_memo.md) |
-| 5 minutes | [The findings and supporting numbers](reports/diagnostic_analysis.md) |
-| More time | Follow the six steps below, with links to the data, SQL and checks |
-| A terminal | [Run the case locally](#run-it-yourself) |
+| The C07 business segment contains **215 affected transfers** and **$3,960.94** in fee leakage. | Correct this specific pricing configuration and reconcile its fee records. |
+| C13/P04 has a **39.7%** settlement exception rate in the target window, versus **4.2%** on other routes. | Assign a route-level owner and control instead of treating it as a portfolio-wide failure. |
+| The C01 priority route is **98.4% instant** but costs **21.43 bps**, versus **8.67 bps** on other C01 routes. | Investigate the trade-off. The observed route groups are not a causal comparison. |
 
-## Follow the work
+The [diagnostic report](reports/diagnostic_analysis.md) gives the periods and denominators. The SQL behind the central movement is in the [take-rate bridge](dbt_fintech/models/marts/mart_take_rate_bridge.sql); the other views are in the [exception](dbt_fintech/models/marts/mart_reconciliation_exceptions.sql) and [speed-cost](dbt_fintech/models/marts/mart_speed_cost_tradeoff.sql) marts.
 
-### 1. Start with the business question
+## 6. Decide what to fix and what to test
 
-A falling headline metric can hide different causes. The case asks which movements should be preserved, which need a fix, and which require an experiment. I wrote down the decision, hypotheses and evidence rules before interpreting the generated results.
+The pricing shortfall and settlement pattern are visible directly in the synthetic records, so I recommended targeted fixes. Routing is different: the faster provider handled a different set of transfers, and observed averages cannot tell us what would happen if the same transfers took another route. I proposed a controlled test with contribution, speed, support and settlement guardrails.
 
-**Open:** [case brief](docs/project_charter.md) · [public source register](docs/source_register.md) · [assumptions](docs/assumptions.md)
+![Decision map: fix the pricing configuration, control settlement exceptions and test routing before changing policy](assets/06-decision-map.svg)
 
-### 2. Make the evidence inspectable
+The [decision memo](reports/executive_memo.md) sets the sequence. The [experiment design](reports/experiment_design.md) states eligibility, treatment, metrics and stop conditions. The [decision log](docs/decision_log.md) records the choices and what evidence could change them.
 
-A seeded Python generator creates **10,000 transfer attempts**, **3,500 customers** and **11 related source tables** across **20 corridors**. The [scenario settings](config/scenarios.yml) are published, so the observed faults are visible and the snapshot can be regenerated. This is a designed case, not a discovered issue at a real company.
+## Where the proof lives
 
-**Open:** [generator](src/fintech_sim/generator.py) · [configuration](config/prototype.yml) · [data dictionary](docs/data_dictionary.md) · [snapshot](data/prototype) · [generation checks](reports/prototype_validation.md)
+| Area | Files |
+| --- | --- |
+| Generated records and assumptions | [Data snapshot](data/prototype) · [generator](src/fintech_sim/generator.py) · [scenario settings](config/scenarios.yml) |
+| Definitions and transformations | [Metric contract](docs/metric_contract.md) · [dbt models](dbt_fintech/models) · [architecture](docs/architecture.md) |
+| Checks | [Prototype validation](reports/prototype_validation.md) · [dbt tests](dbt_fintech/tests) · [build validation](reports/metric_layer_validation.md) |
+| Findings and decision | [Diagnostic analysis](reports/diagnostic_analysis.md) · [executive memo](reports/executive_memo.md) · [experiment](reports/experiment_design.md) |
 
-### 3. Agree on what each number means
+The figures on this page are drawn from the documented model and snapshot by [this visual script](scripts/build_readme_visuals.py). They are part of the case explanation, not social media artwork.
 
-Operations counts a transfer when it completes; Finance may count its settlement in another month. I kept those event clocks separate, then connected them with a reconciliation bridge. Fees also stay distinct as list price, approved reduction, expected charge and amount collected.
-
-**Open:** [metric contract](docs/metric_contract.md) · [reporting bridge SQL](dbt_fintech/models/marts/mart_reporting_period_reconciliation.sql) · [bridge test](dbt_fintech/tests/assert_reporting_period_bridge_reconciles.sql)
-
-### 4. Build and test the analytical layer
-
-DuckDB loads the CSV snapshot. dbt moves from typed [staging models](dbt_fintech/models/staging) to a [transfer-level economic model](dbt_fintech/models/intermediate/int_transfer_unit_economics.sql), then to [decision-facing marts](dbt_fintech/models/marts). The stored validation report records **23 models and 168 data tests**, with **191 of 191 build steps passing** at that run.
-
-**Open:** [architecture](docs/architecture.md) · [dbt project](dbt_fintech) · [quality assertions](dbt_fintech/tests) · [validation report](reports/metric_layer_validation.md)
-
-### 5. Separate the findings
-
-| Question | Synthetic finding | Trace it to |
-| --- | --- | --- |
-| Why did take rate fall? | A **2.18 bp** decline includes **0.57 bp** of approved price investment and **1.67 bps** of fee leakage, worth **$3,960.94** in the simulated period. | [Take-rate bridge](dbt_fintech/models/marts/mart_take_rate_bridge.sql) |
-| Where is the settlement risk? | The **C13/P04** route has a **39.7%** exception rate in the target window, versus **4.2%** elsewhere in the comparison. | [Exception mart](dbt_fintech/models/marts/mart_reconciliation_exceptions.sql) |
-| Should routing change? | The C01 priority route completes **98.4%** instantly, with **21.43 bps** of provider cost versus **8.67 bps** for other C01 routes. | [Speed and cost mart](dbt_fintech/models/marts/mart_speed_cost_tradeoff.sql) |
-
-The [diagnostic analysis](reports/diagnostic_analysis.md) gives the periods, denominators and limitations behind these summaries. These are properties of the generated dataset, not observations about Wise.
-
-### 6. Turn evidence into a bounded action
-
-The fee shortfall and exception pattern are directly visible in the synthetic records, so the memo recommends targeted controls. Provider assignment was not random, so the cheaper-route comparison remains a hypothesis. The [experiment design](reports/experiment_design.md) sets eligibility, a small treatment, a contribution metric and speed, support and settlement guardrails.
-
-**Open:** [decision memo](reports/executive_memo.md) · [experiment](reports/experiment_design.md) · [decision log](docs/decision_log.md)
-
-## Run it yourself
-
-Use Python 3.12 and `make`. The build runs locally with DuckDB; no cloud account or credentials are needed.
-
-```bash
-make setup
-make build
-```
-
-The build checks the committed snapshot, loads DuckDB, runs the dbt models and tests, generates dbt documentation and exports the decision marts. To regenerate the same snapshot from the published seed and scenario settings:
-
-```bash
-make regenerate
-```
-
-The settings live in [`config/`](config), the loader and export scripts in [`scripts/`](scripts), and the committed CSVs in [`data/prototype/`](data/prototype). Local warehouse files and generated exports are ignored by Git. The [static case presentation](site) is an additional view of the decision; the analysis and its proof remain in the linked files above.
-
-## What this case can and cannot show
-
-The data deliberately contains pricing, settlement and routing patterns. The tests show that the synthetic records and analytical definitions are internally consistent. They do **not** show that any such pattern exists at Wise. Contribution margin is a proxy that omits several costs, and the routing scenario uses observed averages rather than a causal estimate. Those limits are part of the decision, especially the choice to test routing before changing it.
+**Limits:** All transaction-level findings are synthetic. The contribution metric is a proxy that leaves out several real costs. The routing scenario uses observed averages, not a causal estimate. Those limits are why the case ends with a controlled experiment rather than a broad routing change.
 
 Built by Victor Moraes Garlet as an independent portfolio simulation.

@@ -38,3 +38,8 @@ jobs:
 
       - name: Export decision marts
         run: python scripts/export_marts.py
+
+      - name: Verify README figures against the analytical model
+        run: |
+          python scripts/build_readme_visuals.py
+          git diff --exit-code -- assets

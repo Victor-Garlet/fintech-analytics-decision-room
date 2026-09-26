@@ -1,7 +1,7 @@
 PYTHON := .venv/bin/python
 DBT := .venv/bin/dbt
 
-.PHONY: setup test test-internal load dbt-build dbt-docs export build regenerate clean
+.PHONY: setup test test-internal load dbt-build dbt-docs export readme-visuals build regenerate clean
 
 setup:
 	python3 -m venv .venv
@@ -26,7 +26,10 @@ dbt-docs: dbt-build
 export: dbt-build
 	$(PYTHON) scripts/export_marts.py
 
-build: test dbt-docs export
+readme-visuals: dbt-build
+	$(PYTHON) scripts/build_readme_visuals.py
+
+build: test dbt-docs export readme-visuals
 
 regenerate:
 	$(PYTHON) scripts/generate_prototype.py

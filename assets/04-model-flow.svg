@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="390" viewBox="0 0 1200 390" role="img" aria-labelledby="title desc">
+<title id="title">Analytical model flow</title>
+<desc id="desc">Eleven source CSV tables load into DuckDB raw tables, pass through typed dbt staging and two intermediate views, then form ten decision-facing marts. Automated data tests check relationships and reconciliations.</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M1 1 L8 4.5 L1 8" fill="none" stroke="#91A4B3" stroke-width="1.7"/></marker></defs>
+<rect width="1200" height="390" fill="#F7FAFC"/>
+<rect x="0" y="0" width="7" height="390" fill="#087F76"/>
+<text x="52" y="37" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="13" font-weight="700" fill="#087F76" text-anchor="start">04 / BUILD</text>
+<text x="52" y="72" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#14273B" text-anchor="start">From source records to a number a reader can challenge</text>
+<text x="52" y="100" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#516477" text-anchor="start">Each layer has a job. Tests guard the hand-offs and the decision metrics.</text>
+<rect x="52" y="164" width="191" height="89" rx="15" fill="#FFFFFF" stroke="#C8D5DD" stroke-width="1.5"/>
+<rect x="52" y="164" width="6" height="89" rx="3" fill="#087F76" stroke="#087F76" stroke-width="0"/>
+<text x="69" y="198" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="19" font-weight="700" fill="#14273B" text-anchor="start">CSV snapshot</text>
+<text x="69" y="225" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="400" fill="#516477" text-anchor="start">11 source tables</text>
+<rect x="288" y="164" width="191" height="89" rx="15" fill="#FFFFFF" stroke="#C8D5DD" stroke-width="1.5"/>
+<rect x="288" y="164" width="6" height="89" rx="3" fill="#2D628F" stroke="#2D628F" stroke-width="0"/>
+<text x="305" y="198" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="19" font-weight="700" fill="#14273B" text-anchor="start">DuckDB raw</text>
+<text x="305" y="225" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="400" fill="#516477" text-anchor="start">Faithful local load</text>
+<rect x="524" y="164" width="191" height="89" rx="15" fill="#FFFFFF" stroke="#C8D5DD" stroke-width="1.5"/>
+<rect x="524" y="164" width="6" height="89" rx="3" fill="#2D628F" stroke="#2D628F" stroke-width="0"/>
+<text x="541" y="198" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="19" font-weight="700" fill="#14273B" text-anchor="start">dbt staging</text>
+<text x="541" y="225" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="400" fill="#516477" text-anchor="start">Typed source views</text>
+<rect x="760" y="164" width="191" height="89" rx="15" fill="#FFFFFF" stroke="#C8D5DD" stroke-width="1.5"/>
+<rect x="760" y="164" width="6" height="89" rx="3" fill="#2D628F" stroke="#2D628F" stroke-width="0"/>
+<text x="777" y="198" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="19" font-weight="700" fill="#14273B" text-anchor="start">Intermediate</text>
+<text x="777" y="225" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="400" fill="#516477" text-anchor="start">Event + fee logic</text>
+<rect x="996" y="164" width="191" height="89" rx="15" fill="#FFFFFF" stroke="#C8D5DD" stroke-width="1.5"/>
+<rect x="996" y="164" width="6" height="89" rx="3" fill="#087F76" stroke="#087F76" stroke-width="0"/>
+<text x="1013" y="198" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="19" font-weight="700" fill="#14273B" text-anchor="start">Decision marts</text>
+<text x="1013" y="225" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="400" fill="#516477" text-anchor="start">10 output tables</text>
+<path d="M243 207 H279" fill="none" stroke="#C8D5DD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M479 207 H515" fill="none" stroke="#C8D5DD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M715 207 H751" fill="none" stroke="#C8D5DD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M951 207 H987" fill="none" stroke="#C8D5DD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="52" y="286" width="1135" height="70" rx="12" fill="#EAF2F5" stroke="#EAF2F5" stroke-width="0"/>
+<text x="75" y="316" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#087F76" text-anchor="start">Quality gate</text>
+<text x="75" y="341" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="17" font-weight="400" fill="#14273B" text-anchor="start">168 dbt data tests · 23 models · 191/191 build steps passed in the recorded validation run</text>
+</svg>
