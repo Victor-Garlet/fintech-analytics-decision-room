@@ -14,7 +14,7 @@ flowchart TD
     D --> E["Reconciliation and unit economics"]
     E --> F["Decision marts"]
     F --> G["Decision report"]
-    F --> H["Public portfolio site"]
+    F --> H["Static case presentation"]
     D -. quality gates .-> I["dbt tests and CI"]
     E -. metric gates .-> I
     F -. reconciliation gates .-> I
@@ -40,23 +40,21 @@ flowchart TD
 | `intermediate` | Views | Reusable event alignment, reconciliation and unit-economics logic. |
 | `marts` | Tables | Stable interfaces for business analysis and reporting. |
 
-## Public and private boundary
+## Reproduction boundary
 
-The repository is designed to become public without leaking the controlled scenario targets prematurely.
+The completed simulation includes its scenario settings, code, CSV snapshot, SQL models, metric definitions and tests. A reader can regenerate the source tables and rebuild the decision marts locally.
 
-- Public: source code, public configurations, synthetic snapshot, SQL models, metric definitions, tests and eventually curated outputs.
-- Private until the related episode: exact scenario targets and the internal detectability report.
-- Never included: real personal information, production credentials or non-public company information.
+Real personal information, credentials and non-public company data do not belong in this repository.
 
 ## Deployment path
 
-The current build runs locally and in GitHub Actions. The portfolio site, reports and generated visuals use the same decision marts.
+The current build runs locally and in GitHub Actions. The reports and static presentation summarise the decision marts.
 
 Potential extensions are deliberately separate from the completed case:
 
 1. BigQuery for an approximately one-million-transfer scale run.
 2. Static dbt documentation for browsable lineage.
-3. Public GitHub Pages deployment after release approval.
+3. GitHub Pages deployment if a separate visual presentation is useful.
 4. A native Power BI semantic model if a `.pbix` delivery is required.
 
 Each addition must improve reviewability or decision use. None is required to validate the current analytical logic.

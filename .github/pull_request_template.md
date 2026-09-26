@@ -6,16 +6,16 @@ What business decision or analytical contract does this change support?
 
 - Models or data:
 - Metrics or definitions:
-- Reports or visuals:
+- Reports or documentation:
 
 ## Validation
 
 - [ ] Public snapshot tests pass
 - [ ] `dbt build` passes
 - [ ] Decision marts reconcile
-- [ ] Visuals were regenerated when inputs changed
+- [ ] Snapshot was regenerated when scenario inputs changed
 - [ ] Findings remain labelled as synthetic
 
-## Release impact
+## Interpretation impact
 
-Does this change an approved number, post, visual, assumption or disclosure?
+Does this change a reported number, assumption, limitation or disclosure?
