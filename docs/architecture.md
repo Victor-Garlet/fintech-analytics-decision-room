@@ -1,7 +1,7 @@
 # Analytics Architecture
 
-**Version:** 0.2
-**Status:** Local metric layer validated
+**Version:** 1.0
+**Status:** Decision layer validated
 **Primary design goal:** make every decision-facing number traceable to a source event, a definition and a test.
 
 ## System view
@@ -13,7 +13,7 @@ flowchart TD
     C --> D["dbt staging views"]
     D --> E["Reconciliation and unit economics"]
     E --> F["Decision marts"]
-    F --> G["Power BI report"]
+    F --> G["Decision report"]
     F --> H["Public portfolio site"]
     D -. quality gates .-> I["dbt tests and CI"]
     E -. metric gates .-> I
@@ -29,7 +29,7 @@ flowchart TD
 | One transfer-level economic spine | Price, provider cost and service cost need a shared grain before aggregation. | `int_transfer_unit_economics` joins completed transfers to fees, provider cost, support and refunds. |
 | Marts by decision | Monitoring and diagnosis require different levels of detail. | Executive, corridor, provider, transfer and exception marts. |
 | Local-first execution | Review should not require paid infrastructure or credentials. | DuckDB plus committed synthetic data; BigQuery is the scale target, not a dependency. |
-| Test the business rules | A green SQL query is not evidence that its business meaning is correct. | 145 source, model and singular dbt tests, including accounting and reconciliation assertions. |
+| Test the business rules | A green SQL query is not evidence that its business meaning is correct. | 168 source, model and singular dbt tests, including accounting, bridge and scenario assertions. |
 
 ## Model layers
 
@@ -50,11 +50,13 @@ The repository is designed to become public without leaking the controlled scena
 
 ## Deployment path
 
-The current build runs entirely locally and in GitHub Actions. Later milestones will add:
+The current build runs locally and in GitHub Actions. The portfolio site, reports and generated visuals use the same decision marts.
 
-1. BigQuery for the approximately one-million-transfer scale run.
+Potential extensions are deliberately separate from the completed case:
+
+1. BigQuery for an approximately one-million-transfer scale run.
 2. Static dbt documentation for browsable lineage.
-3. A GitHub Pages portfolio experience with a curated DuckDB/Parquet query surface.
-4. A Power BI semantic model and decision-facing report.
+3. Public GitHub Pages deployment after release approval.
+4. A native Power BI semantic model if a `.pbix` delivery is required.
 
 Each addition must improve reviewability or decision use. None is required to validate the current analytical logic.

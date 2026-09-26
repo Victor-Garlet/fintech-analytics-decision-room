@@ -14,6 +14,11 @@ MARTS = [
     "mart_executive_kpis",
     "mart_corridor_performance",
     "mart_provider_performance",
+    "mart_take_rate_bridge",
+    "mart_reporting_period_reconciliation",
+    "mart_speed_cost_tradeoff",
+    "mart_routing_scenario",
+    "mart_fee_leakage_hotspots",
     "mart_reconciliation_exceptions",
     "mart_transfer_unit_economics",
 ]

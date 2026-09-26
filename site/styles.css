@@ -104,6 +104,48 @@ blockquote { margin: 0; padding: 32px; border: 2px solid var(--ink); border-radi
 .question-grid h3 { margin: 18px 0 8px; font-size: 21px; letter-spacing: -.03em; }
 .question-grid p { margin: 0; color: var(--muted); font-size: 14px; }
 
+.findings { background: var(--paper); }
+.take-rate-panel { padding: clamp(24px, 4vw, 42px); border: 2px solid var(--ink); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow); }
+.take-rate-head { display: grid; grid-template-columns: 1fr auto 1fr; gap: 28px; align-items: center; padding-bottom: 30px; border-bottom: 1px solid var(--line); }
+.take-rate-head div:last-child { text-align: right; }
+.take-rate-head small, .take-rate-head strong { display: block; }
+.take-rate-head small { color: var(--muted); font-size: 11px; font-weight: 800; text-transform: uppercase; }
+.take-rate-head strong { margin-top: 5px; font-size: clamp(30px, 5vw, 54px); letter-spacing: -.05em; }
+.take-rate-head > span { color: var(--purple); font-size: 34px; font-weight: 900; }
+.driver-list { margin-top: 20px; }
+.driver-list div { display: flex; justify-content: space-between; gap: 30px; padding: 15px 16px; border-bottom: 1px solid var(--line); font-size: 15px; }
+.driver-list b { white-space: nowrap; }
+.driver-list .positive { color: #21744a; }
+.driver-list .intentional { color: var(--purple); }
+.driver-list .risk { margin-top: 8px; border: 1.5px solid var(--orange); border-radius: 10px; background: var(--orange-soft); color: var(--ink); }
+.driver-list .risk b { color: var(--orange); }
+.panel-note { margin: 18px 0 0; color: var(--muted); font-size: 12px; text-align: right; }
+.finding-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 30px; }
+.finding-card { min-height: 280px; padding: 25px; border: 2px solid var(--ink); border-radius: var(--radius); background: var(--white); }
+.finding-card > span { color: var(--purple); font-size: 10px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+.finding-card > strong { display: block; margin: 34px 0 4px; font-size: clamp(34px, 4vw, 52px); letter-spacing: -.06em; }
+.finding-card h3 { margin: 0 0 16px; font-size: 21px; line-height: 1.15; letter-spacing: -.035em; }
+.finding-card p { margin: 0; color: var(--muted); font-size: 14px; }
+.risk-card { background: var(--orange-soft); }
+.risk-card > span, .risk-card > strong { color: var(--orange); }
+.speed-card { background: var(--purple-soft); }
+
+.experiment { background: var(--ink); color: var(--white); }
+.experiment .section-heading p { color: #b9b3bf; }
+.experiment-layout { display: grid; grid-template-columns: 1.15fr .85fr; gap: 20px; }
+.scenario-card, .guardrail-card { padding: clamp(26px, 4vw, 42px); border: 2px solid var(--white); border-radius: var(--radius); }
+.scenario-card { background: var(--white); color: var(--ink); }
+.scenario-card h3, .guardrail-card h3 { margin: 24px 0 34px; max-width: 660px; font-size: clamp(24px, 3vw, 38px); line-height: 1.08; letter-spacing: -.04em; }
+.scenario-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.scenario-metrics div { padding-top: 16px; border-top: 3px solid var(--purple); }
+.scenario-metrics div:nth-child(n+2) { border-color: var(--orange); }
+.scenario-metrics strong, .scenario-metrics span { display: block; }
+.scenario-metrics strong { font-size: 26px; letter-spacing: -.04em; }
+.scenario-metrics span { margin-top: 4px; color: var(--muted); font-size: 11px; }
+.guardrail-card > span { color: #b69cff; font-size: 10px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+.guardrail-card ul { margin: 0; padding-left: 20px; color: #d8d2dc; }
+.guardrail-card li { margin: 11px 0; }
+
 .evidence-section { background: var(--paper); }
 .evidence-controls { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
 .filter { cursor: pointer; padding: 10px 14px; border: 2px solid var(--ink); border-radius: 999px; background: white; color: var(--ink); font: inherit; font-size: 12px; font-weight: 850; }
@@ -135,11 +177,11 @@ blockquote { margin: 0; padding: 32px; border: 2px solid var(--ink); border-radi
 .roadmap { background: var(--paper); }
 .case-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 .case-card { min-height: 170px; padding: 20px; border: 2px solid var(--ink); border-radius: 14px; background: white; }
-.case-card.current { background: var(--purple); color: white; box-shadow: 5px 5px 0 var(--ink); transform: translate(-2px, -2px); }
+.case-card.current, .case-card.complete { background: var(--purple); color: white; box-shadow: 5px 5px 0 var(--ink); transform: translate(-2px, -2px); }
 .case-card > span { font-size: 11px; font-weight: 950; }
 .case-card p { margin: 34px 0 8px; font-size: 18px; font-weight: 850; line-height: 1.15; }
 .case-card small { color: var(--muted); }
-.case-card.current small { color: #e7ddff; }
+.case-card.current small, .case-card.complete small { color: #e7ddff; }
 
 .closing { padding: clamp(100px, 14vw, 190px) clamp(20px, 7vw, 112px); background: var(--ink); color: white; text-align: center; }
 .closing h2 { margin: 0 auto; max-width: 1050px; font-size: clamp(44px, 7vw, 94px); line-height: .98; letter-spacing: -.065em; }
@@ -160,7 +202,7 @@ footer p:last-child { color: var(--muted); }
   .proof-strip div:nth-child(-n+2) { border-bottom: 1px solid #514b57; }
   .section-heading { display: block; }
   .section-heading p { margin-top: 20px; }
-  .question-grid, .evidence-grid { grid-template-columns: 1fr; }
+  .question-grid, .evidence-grid, .finding-grid, .experiment-layout { grid-template-columns: 1fr; }
   .pipeline { grid-template-columns: 1fr; }
   .pipeline li { min-height: 120px; }
   .pipeline li:not(:last-child)::after { content: "↓"; right: 24px; top: auto; bottom: -18px; }
@@ -174,5 +216,9 @@ footer p:last-child { color: var(--muted); }
   .proof-strip span { font-size: 10px; }
   .case-grid { grid-template-columns: 1fr; }
   .quality-callout { align-items: flex-start; flex-direction: column; }
+  .take-rate-head { grid-template-columns: 1fr; gap: 8px; }
+  .take-rate-head div:last-child { text-align: left; }
+  .take-rate-head > span { transform: rotate(90deg); transform-origin: left center; margin: 8px 0; }
+  .scenario-metrics { grid-template-columns: 1fr; }
   footer { grid-template-columns: 1fr; gap: 18px; }
 }

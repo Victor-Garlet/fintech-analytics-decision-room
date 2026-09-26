@@ -1,7 +1,7 @@
 # Prototype Metric Contract
 
-**Version:** 0.2
-**Status:** Implemented in the local dbt metric layer
+**Version:** 1.0
+**Status:** Implemented and validated in the local dbt metric layer
 **Default currency:** USD
 **Purpose:** ensure Finance, Operations and Product can disagree visibly about business meaning without silently using different formulas.
 
@@ -57,6 +57,8 @@ When collected take rate moves, investigate in this order:
 
 This order prevents an intentional lower price from being presented as a defect.
 
+The final H2 2025 to H1 2026 bridge uses a symmetric shift-share calculation at corridor and customer-segment grain. This keeps portfolio-mix and within-cell list-yield effects order independent. Approved price investment and fee leakage are then applied as direct adjustments from their transfer-level fields.
+
 ## Ownership and validation map
 
 Ownership here describes the fictional operating model used in the case. It is not a statement about Wise's organisation.
@@ -77,6 +79,11 @@ Ownership here describes the fictional operating model used in the case. It is n
 | Provider cost rate | Provider Management | `mart_provider_performance` | One non-negative provider-cost record per completed transfer |
 | Support contact rate | Customer Operations | `mart_corridor_performance` | Optional contact keys are unique and related to a valid transfer |
 | Contribution margin proxy | Finance Analytics | `mart_transfer_unit_economics` | Required components are non-null and non-negative before calculation |
+| Completion-to-settlement bridge | Finance Analytics and Payments Operations | `mart_reporting_period_reconciliation` | Finance actual settlement closes to the Operations cohort bridge within $0.01 |
+| Take-rate decomposition | Finance Analytics and Pricing Analytics | `mart_take_rate_bridge` | Component impacts reconcile to the observed take-rate movement within 0.000001 bps |
+| Fee-leakage hotspot | Pricing Analytics | `mart_fee_leakage_hotspots` | Expected and collected fee equations hold at transfer grain |
+| Speed-cost trade-off | Payments Product and Provider Management | `mart_speed_cost_tradeoff` | One row per analysis period, corridor and route group |
+| Routing planning scenario | Payments Product and Finance Analytics | `mart_routing_scenario` | Treatment share is bounded and the scenario remains explicitly non-causal |
 
 ## Change control
 

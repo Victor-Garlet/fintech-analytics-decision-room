@@ -10,7 +10,7 @@ It is designed as a decision case, not a gallery of dashboards. The work makes m
 
 ## Current status
 
-**Milestone 2 — trusted analytical layer validated**
+**Milestone 4 — decision case complete and ready for review**
 
 | Evidence | Current result |
 | --- | ---: |
@@ -18,11 +18,12 @@ It is designed as a decision case, not a gallery of dashboards. The work makes m
 | Synthetic customers | 3,500 |
 | Currency corridors | 20 |
 | Raw source tables | 11 |
-| dbt models | 18 |
-| Automated dbt tests | 145 |
-| Latest `dbt build` | 163 / 163 passed |
+| dbt models | 23 |
+| Automated dbt tests | 168 |
+| Public snapshot and content tests | 7 / 7 passed |
+| Latest `dbt build` | 191 / 191 passed |
 
-The next milestone is the diagnostic analysis: reconciling Finance and Operations views, then decomposing take-rate movement before any recommendation is made.
+The analytical build, diagnostic readout, executive recommendation, experiment design, eight visuals and eight post drafts are complete. Publication and deployment remain subject to individual approval.
 
 ## The analytical path
 
@@ -46,7 +47,10 @@ The local path uses DuckDB so anyone can inspect the work without a cloud accoun
 - Tests for keys, relationships, accepted values, accounting equations, settlement coverage, business-event timing and mart reconciliation.
 - Generated dbt documentation and lineage metadata.
 - Source register, data dictionary, metric contract and project charter.
-- A private scenario boundary so controlled issues are not revealed before the relevant investigation.
+- A take-rate bridge separating mix, approved investment and pricing leakage.
+- A reporting-period bridge connecting Operations completion cohorts to Finance settlements.
+- A bounded routing scenario and controlled-experiment design.
+- A decision-facing portfolio site, executive memo and eight-post content series.
 
 ## Repository map
 
@@ -57,8 +61,9 @@ data/prototype/        Committed synthetic prototype snapshot
 dbt_fintech/           SQL models, model contracts, tests and lineage
 docs/                  Business context, metrics, architecture and decisions
 reports/               Internal validation evidence
+content/               LinkedIn drafts, editorial calendar and generated visuals
 scripts/               Data loading, export and generation entry points
-site/                  Portfolio experience, prepared for a later public release
+site/                  Decision-facing portfolio experience
 src/fintech_sim/       Reusable generation and validation logic
 tests/                 Python snapshot and internal scenario tests
 ```
@@ -90,6 +95,7 @@ make load
 make dbt-build
 make dbt-docs
 make export
+make visuals
 ```
 
 The maintainer-only `make regenerate` command requires the unreleased scenario configuration. That boundary will be removed or versioned when the investigation reaches its final public release.
@@ -114,10 +120,18 @@ See the [project charter](docs/project_charter.md), [metric contract](docs/metri
 - Fictional provider names, costs and events do not describe real organisations.
 - No real customer, employee or internal company data is used.
 
+## Decision outputs
+
+- [Diagnostic analysis](reports/diagnostic_analysis.md)
+- [Executive decision memo](reports/executive_memo.md)
+- [Routing experiment design](reports/experiment_design.md)
+- [Interview explanation guide](reports/interview_notes.md)
+- [LinkedIn release plan](content/editorial_calendar.md)
+
 ## Public series
 
-The build will be documented through eight LinkedIn episodes under **30 Days Inside a European Fintech**. Each episode will stand alone, add one piece of evidence and end with the full simulation disclosure. Posts and public deployment remain subject to individual approval.
+The build is documented through eight LinkedIn episodes under **30 Days Inside a European Fintech**. Each episode stands alone, adds one piece of evidence and ends with the full simulation disclosure. Posts and public deployment remain subject to individual approval.
 
 ---
 
-**Simulation disclosure:** This is an independent portfolio project using Wise only as public business context. All transaction-level data, findings and recommendations are fictional and do not represent Wise or its internal operations.
+**Simulation disclosure:** This is an independent simulation inspired by Wise's public disclosures. I am not affiliated with Wise. All transaction-level data and project findings are synthetic; any company-level figures are sourced from public reports.

@@ -52,3 +52,53 @@ models:
           - accepted_values:
               arguments:
                 values: [late, amount_mismatch, missing]
+
+  - name: mart_take_rate_bridge
+    description: H2 2025 to H1 2026 take-rate movement decomposed into mix, list yield, approved investment and leakage.
+    columns:
+      - name: component_order
+        data_tests: [not_null, unique]
+      - name: component_code
+        data_tests: [not_null, unique]
+      - name: impact_bps
+        data_tests: [not_null]
+
+  - name: mart_reporting_period_reconciliation
+    description: Monthly bridge from the Operations completion cohort to Finance settlement-period reporting.
+    columns:
+      - name: reporting_month
+        data_tests: [not_null, unique]
+      - name: bridge_residual_usd
+        data_tests: [not_null]
+
+  - name: mart_speed_cost_tradeoff
+    description: Observed H1 2026 speed, cost, support and contribution trade-off for the selected corridor.
+    columns:
+      - name: analysis_period
+        data_tests: [not_null]
+      - name: corridor_id
+        data_tests: [not_null]
+      - name: route_group
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [priority_speed_route, other_routes]
+
+  - name: mart_routing_scenario
+    description: Non-causal planning scenario used to frame a controlled routing experiment.
+    columns:
+      - name: scenario_name
+        data_tests: [not_null, unique]
+      - name: reroute_share
+        data_tests: [not_null]
+
+  - name: mart_fee_leakage_hotspots
+    description: Fee leakage investigation queue aggregated by corridor and customer segment.
+    columns:
+      - name: corridor_id
+        data_tests: [not_null]
+      - name: customer_segment
+        data_tests: [not_null]
+      - name: fee_leakage_usd
+        data_tests: [not_null]

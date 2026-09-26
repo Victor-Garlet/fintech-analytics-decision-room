@@ -20,16 +20,16 @@
       </a>
       <nav aria-label="Primary navigation">
         <a href="#decision">Decision</a>
-        <a href="#evidence">Evidence</a>
+        <a href="#findings">Findings</a>
+        <a href="#experiment">Experiment</a>
         <a href="#architecture">Architecture</a>
-        <a href="#roadmap">Cases</a>
       </nav>
     </header>
 
     <main id="main">
       <section class="hero" id="top">
         <div class="hero-copy">
-          <p class="eyebrow">Independent portfolio case · Build in progress</p>
+          <p class="eyebrow">Independent portfolio case · Decision ready</p>
           <h1>30 Days Inside a<br /><span>European Fintech</span></h1>
           <p class="hero-lede">
             One synthetic payments business. One decision under pressure. A traceable path
@@ -44,14 +44,14 @@
         <aside class="case-file" aria-label="Current case status">
           <div class="case-file-head">
             <span>Case file</span>
-            <span class="status"><i aria-hidden="true"></i> active</span>
+            <span class="status"><i aria-hidden="true"></i> complete</span>
           </div>
-          <p class="case-number">01 / 08</p>
-          <h2>The margin behind the speed</h2>
+          <p class="case-number">08 / 08</p>
+          <h2>Protect the economics. Keep the customer investment.</h2>
           <dl>
-            <div><dt>Question</dt><dd>Price ↓ · Speed ↑ · What happens to sustainable economics?</dd></div>
-            <div><dt>Evidence</dt><dd>Metric layer validated</dd></div>
-            <div><dt>Next move</dt><dd>Reconcile two valid versions of the month</dd></div>
+            <div><dt>Decision</dt><dd>Fix two controls and test one routing hypothesis</dd></div>
+            <div><dt>Evidence</dt><dd>191 checks passed with no residual</dd></div>
+            <div><dt>Next move</dt><dd>Approve the intervention and experiment</dd></div>
           </dl>
           <div class="stamp">Synthetic<br />simulation</div>
         </aside>
@@ -59,36 +59,105 @@
 
       <section class="proof-strip" aria-label="Build evidence">
         <div><strong>10,000</strong><span>transfer attempts</span></div>
-        <div><strong>20</strong><span>currency corridors</span></div>
-        <div><strong>18</strong><span>dbt models</span></div>
-        <div><strong>145</strong><span>automated tests</span></div>
+        <div><strong>23</strong><span>dbt models</span></div>
+        <div><strong>168</strong><span>automated tests</span></div>
+        <div><strong>191/191</strong><span>quality checks passed</span></div>
       </section>
 
       <section class="section decision" id="decision">
         <div class="section-label">01 · Decision at risk</div>
         <div class="decision-grid">
           <div>
-            <h2>Lower take rate can be a strategy.<br />Or a leak.</h2>
+            <h2>Fix the leak.<br />Preserve the strategy.</h2>
             <p>
-              A headline movement does not tell a decision-maker whether the business deliberately
-              invested in customer price, changed its mix, lost fees unexpectedly or simply counted
-              two events in different periods.
+              The simulated take-rate decline combines deliberate customer price investment with an
+              unexpected configuration failure. Reversing both would protect the metric and damage
+              the decision.
             </p>
           </div>
           <blockquote>
-            “How can a payments fintech lower prices and improve transfer speed without losing
-            control of unit economics?”
+            “Correct the observed controls now. Test the routing opportunity before scaling it.”
           </blockquote>
         </div>
         <div class="question-grid">
-          <article><span>01</span><h3>Expected or broken?</h3><p>Separate deliberate price investment from avoidable fee leakage.</p></article>
-          <article><span>02</span><h3>Fast or sustainable?</h3><p>Measure whether speed gains justify provider and service cost.</p></article>
-          <article><span>03</span><h3>Different or wrong?</h3><p>Bridge completion and settlement views before choosing one truth.</p></article>
+          <article><span>01</span><h3>Stop the leakage</h3><p>Correct one pricing configuration and reconcile $3,960.94 of simulated lost fees.</p></article>
+          <article><span>02</span><h3>Repair the control</h3><p>Address a route with a 39.7% settlement exception rate.</p></article>
+          <article><span>03</span><h3>Test the trade-off</h3><p>Evaluate cheaper routing without assuming customer impact away.</p></article>
+        </div>
+      </section>
+
+      <section class="section findings" id="findings">
+        <div class="section-label">02 · Diagnostic findings</div>
+        <div class="section-heading">
+          <h2>One KPI movement.<br />Four economic causes.</h2>
+          <p>The H2 2025 baseline and H1 2026 comparison are weighted by transfer volume.</p>
+        </div>
+        <div class="take-rate-panel">
+          <div class="take-rate-head">
+            <div><small>Baseline collected take rate</small><strong>50.23 bps</strong></div>
+            <span aria-hidden="true">→</span>
+            <div><small>Comparison collected take rate</small><strong>48.05 bps</strong></div>
+          </div>
+          <div class="driver-list">
+            <div><span>Portfolio mix</span><b class="positive">+0.09 bps</b></div>
+            <div><span>Within-cell list yield</span><b>-0.02 bps</b></div>
+            <div><span>Approved price investment</span><b class="intentional">-0.57 bps</b></div>
+            <div class="risk"><span>Pricing configuration leakage</span><b>-1.67 bps</b></div>
+          </div>
+          <p class="panel-note">Bridge residual &lt; 0.000001 bps</p>
+        </div>
+        <div class="finding-grid">
+          <article class="finding-card risk-card">
+            <span>Pricing control</span>
+            <strong>$3,960.94</strong>
+            <h3>Leakage in one corridor and segment</h3>
+            <p>215 affected transfers. The pattern is concentrated enough for a targeted correction.</p>
+          </article>
+          <article class="finding-card">
+            <span>Settlement control</span>
+            <strong>39.7%</strong>
+            <h3>Exception rate on C13/P04</h3>
+            <p>52 exceptions across 131 transfers, compared with 4.2% on every other route.</p>
+          </article>
+          <article class="finding-card speed-card">
+            <span>Route economics</span>
+            <strong>+12.76 bps</strong>
+            <h3>Cost premium for the fastest route</h3>
+            <p>98.4% instant delivery, with a 10.75 bps contribution gap versus other C01 routes.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section experiment" id="experiment">
+        <div class="section-label">03 · Controlled intervention</div>
+        <div class="section-heading">
+          <h2>A scenario sizes the test.<br />It does not approve the policy.</h2>
+          <p>Observed provider averages can reveal a trade-off, but provider assignment was not random.</p>
+        </div>
+        <div class="experiment-layout">
+          <div class="scenario-card">
+            <span class="tag tag-synthetic">Planning scenario</span>
+            <h3>Reroute 25% of eligible C01 priority volume</h3>
+            <div class="scenario-metrics">
+              <div><strong>+$265</strong><span>contribution proxy</span></div>
+              <div><strong>-2.77 pp</strong><span>instant rate</span></div>
+              <div><strong>+0.64 pp</strong><span>support rate</span></div>
+            </div>
+          </div>
+          <div class="guardrail-card">
+            <span>Decision rule</span>
+            <h3>Scale only if contribution improves and every guardrail clears.</h3>
+            <ul>
+              <li>Instant transfer rate and P90 delivery time</li>
+              <li>Support contacts and refunds</li>
+              <li>Reconciliation exceptions and settlement ageing</li>
+            </ul>
+          </div>
         </div>
       </section>
 
       <section class="section evidence-section" id="evidence">
-        <div class="section-label">02 · Evidence boundary</div>
+        <div class="section-label">04 · Evidence boundary</div>
         <div class="section-heading">
           <h2>Every claim wears a label.</h2>
           <p>Use the controls to see what can, and cannot, be inferred from each evidence type.</p>
@@ -119,7 +188,7 @@
       </section>
 
       <section class="section architecture" id="architecture">
-        <div class="section-label">03 · Traceable architecture</div>
+        <div class="section-label">05 · Traceable architecture</div>
         <div class="section-heading">
           <h2>A number is only useful when someone can challenge it.</h2>
           <p>The stack is deliberately small. Each layer removes a specific kind of decision risk.</p>
@@ -127,31 +196,31 @@
         <ol class="pipeline">
           <li><span>01</span><div><b>Synthetic events</b><small>Deterministic, referentially consistent</small></div></li>
           <li><span>02</span><div><b>DuckDB raw layer</b><small>Faithful, local, inspectable</small></div></li>
-          <li><span>03</span><div><b>dbt trust layer</b><small>Types, contracts, 145 tests</small></div></li>
+          <li><span>03</span><div><b>dbt trust layer</b><small>Types, contracts, 168 tests</small></div></li>
           <li><span>04</span><div><b>Decision marts</b><small>Reconciliation and unit economics</small></div></li>
           <li><span>05</span><div><b>Action</b><small>Recommendation, guardrails, follow-up</small></div></li>
         </ol>
         <div class="quality-callout">
-          <span class="quality-score">163 / 163</span>
+          <span class="quality-score">191 / 191</span>
           <div><strong>Latest build passed</strong><p>Models and tests executed together as one quality gate.</p></div>
         </div>
       </section>
 
       <section class="section roadmap" id="roadmap">
-        <div class="section-label">04 · Investigation map</div>
+        <div class="section-label">06 · Investigation map</div>
         <div class="section-heading">
           <h2>Eight cases. One accumulating decision.</h2>
           <p>Each episode adds enough context to stand alone without pretending the conclusion was known in advance.</p>
         </div>
         <div class="case-grid">
-          <article class="case-card current"><span>01</span><p>Frame the decision</p><small>Current release</small></article>
-          <article class="case-card"><span>02</span><p>Build credible synthetic evidence</p><small>Foundation</small></article>
-          <article class="case-card"><span>03</span><p>Resolve metric definitions</p><small>Trust</small></article>
-          <article class="case-card"><span>04</span><p>Reconcile exceptions</p><small>Control</small></article>
-          <article class="case-card"><span>05</span><p>Decompose take rate</p><small>Diagnosis</small></article>
-          <article class="case-card"><span>06</span><p>Test speed versus cost</p><small>Trade-off</small></article>
-          <article class="case-card"><span>07</span><p>Design the intervention</p><small>Action</small></article>
-          <article class="case-card"><span>08</span><p>Defend the recommendation</p><small>Decision</small></article>
+          <article class="case-card complete"><span>01</span><p>Frame the decision</p><small>Complete</small></article>
+          <article class="case-card complete"><span>02</span><p>Build credible synthetic evidence</p><small>Complete</small></article>
+          <article class="case-card complete"><span>03</span><p>Resolve metric definitions</p><small>Complete</small></article>
+          <article class="case-card complete"><span>04</span><p>Reconcile exceptions</p><small>Complete</small></article>
+          <article class="case-card complete"><span>05</span><p>Decompose take rate</p><small>Complete</small></article>
+          <article class="case-card complete"><span>06</span><p>Test speed versus cost</p><small>Complete</small></article>
+          <article class="case-card complete"><span>07</span><p>Design the intervention</p><small>Complete</small></article>
+          <article class="case-card complete"><span>08</span><p>Defend the recommendation</p><small>Complete</small></article>
         </div>
       </section>
 

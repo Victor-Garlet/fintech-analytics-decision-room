@@ -1,7 +1,7 @@
 PYTHON := .venv/bin/python
 DBT := .venv/bin/dbt
 
-.PHONY: setup test test-internal load dbt-build dbt-docs export build regenerate clean
+.PHONY: setup test test-internal load dbt-build dbt-docs export visuals build regenerate clean
 
 setup:
 	python3 -m venv .venv
@@ -9,7 +9,7 @@ setup:
 	$(PYTHON) -m pip install -r requirements.txt
 
 test:
-	$(PYTHON) -m unittest discover -s tests -p "test_public_snapshot.py" -v
+	$(PYTHON) -m unittest discover -s tests -p "test_public*.py" -v
 
 test-internal:
 	$(PYTHON) -m unittest discover -s tests -v
@@ -26,7 +26,10 @@ dbt-docs: dbt-build
 export: dbt-build
 	$(PYTHON) scripts/export_marts.py
 
-build: test dbt-docs
+visuals: dbt-build
+	$(PYTHON) scripts/build_visuals.py
+
+build: test dbt-docs export visuals
 
 regenerate:
 	$(PYTHON) scripts/generate_prototype.py

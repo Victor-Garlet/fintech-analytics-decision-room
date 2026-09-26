@@ -3,9 +3,9 @@
 ## 30 Days Inside a European Fintech
 
 **Project owner:** Victor Moraes Garlet
-**Status:** Approved for build
-**Version:** 1.0
-**Date:** 24 September 2026
+**Status:** Build complete, publication pending approval
+**Version:** 1.1
+**Date:** 26 September 2026
 **Public language:** English
 **Delivery window:** Four weeks, with eight LinkedIn episodes
 
@@ -79,7 +79,7 @@ Synthetic findings must never be described as findings about Wise.
 - Data quality tests and reconciliation controls.
 - Take-rate decomposition and unit-economics analysis.
 - One prioritised experiment or operational intervention.
-- A decision-facing Power BI report and one-page executive memo.
+- A decision-facing web report, designed as the public BI experience, and one-page executive memo.
 - Eight LinkedIn episodes and eight supporting visuals.
 - A reproducible public repository with limitations and assumptions.
 
@@ -185,10 +185,19 @@ The local metric-layer milestone was completed on 24 September 2026:
 
 - eleven raw sources load reproducibly into DuckDB;
 - thirteen staging and intermediate views preserve source and decision grains;
-- five decision-facing marts cover executive KPIs, transfer economics, reconciliation, corridors and providers;
-- 145 automated data tests validate keys, relationships, allowed states, accounting equations, event timing and mart reconciliation;
-- the complete dbt build passes 163 of 163 models and tests;
+- ten decision-facing marts cover executive KPIs, transfer economics, reconciliation, take-rate movement, leakage and routing trade-offs;
+- 168 automated data tests validate keys, relationships, allowed states, accounting equations, event timing, mart reconciliation and scenario bounds;
+- the complete dbt build passes 191 of 191 models and tests;
 - dbt documentation and lineage artifacts generate successfully;
 - a private portfolio-site draft explains the decision, evidence boundary and architecture without revealing unreleased findings.
 
-The next build task is the diagnostic analysis. It will first reconcile completion-month and settlement-month views, then decompose take-rate movement into approved price investment, mix, unintended leakage and residual effects. The dataset will not scale to approximately one million transfers until those prototype findings reconcile and the analysis design is approved.
+The diagnostic and decision milestone was completed on 26 September 2026:
+
+- completion-month and settlement-month views reconcile with zero material residual;
+- the take-rate bridge separates mix, within-cell yield, approved investment and unintended leakage;
+- route-level settlement and pricing-control hotspots are traceable to transfer-grain records;
+- the routing opportunity is expressed as a bounded scenario and controlled experiment;
+- the executive memo, interview explanations, eight post drafts and eight visuals are prepared;
+- the portfolio site presents the final decision and analytical evidence.
+
+Publication and public deployment remain behind Victor's approval gate.

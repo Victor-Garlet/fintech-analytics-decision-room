@@ -1,10 +1,10 @@
 # Metric Layer Validation
 
-**Run date:** 24 September 2026
+**Run date:** 26 September 2026
 **Environment:** Python 3.12, DuckDB 1.5.5, dbt Core 1.12.5, dbt-duckdb 1.11.0
 **Result:** PASS
 
-This report contains only structural validation evidence. It intentionally excludes unreleased scenario targets and diagnostic findings.
+This report contains structural validation evidence. Diagnostic findings and decision logic are documented separately.
 
 ## Build result
 
@@ -12,9 +12,9 @@ This report contains only structural validation evidence. It intentionally exclu
 | --- | ---: |
 | Raw sources loaded | 11 |
 | dbt view models created | 13 |
-| dbt table models created | 5 |
-| dbt data tests passed | 145 |
-| Complete `dbt build` | 163 / 163 passed |
+| dbt table models created | 10 |
+| dbt data tests passed | 168 |
+| Complete `dbt build` | 191 / 191 passed |
 | Warnings | 0 |
 | Errors | 0 |
 
@@ -41,6 +41,11 @@ This report contains only structural validation evidence. It intentionally exclu
 | `mart_executive_kpis` | Completion month | 13 |
 | `mart_corridor_performance` | Completion month and corridor | 245 |
 | `mart_provider_performance` | Completion month, provider and routing tier | 81 |
+| `mart_take_rate_bridge` | Bridge component | 6 |
+| `mart_reporting_period_reconciliation` | Reporting month | 13 |
+| `mart_speed_cost_tradeoff` | Analysis period, corridor and route group | 2 |
+| `mart_routing_scenario` | Scenario | 1 |
+| `mart_fee_leakage_hotspots` | Corridor and customer segment | 1 |
 | `mart_reconciliation_exceptions` | Exception transfer | 430 |
 | `mart_transfer_unit_economics` | Completed transfer | 9,851 |
 
@@ -56,6 +61,9 @@ Thirteen completion months are expected because transfers can be initiated at th
 - Settlement exception flags agree with settlement states.
 - Reconciliation, corridor and provider marts preserve their declared grains.
 - Monthly executive totals reconcile to the transfer-level economic mart.
+- The completion-to-settlement reporting bridge closes within $0.01 for every month.
+- The take-rate decomposition reconciles to the observed movement within 0.000001 bps.
+- The routing scenario remains inside its declared treatment bounds.
 
 ## Reproduction
 
