@@ -464,40 +464,82 @@ def build_episode_05(connection):
 def build_episode_06(connection):
     rows = connection.execute(
         """
-        select route_group, instant_transfer_rate * 100, provider_cost_rate_bps,
-               support_contact_rate * 100, contribution_margin_proxy_bps, volume_usd
+        select route_group, completed_transfers, instant_transfer_rate * 100,
+               provider_cost_rate_bps, support_contact_rate * 100,
+               contribution_margin_proxy_bps
         from marts.mart_speed_cost_tradeoff
         order by provider_cost_rate_bps desc
         """
     ).fetchall()
-    fig, _ = base_figure(
-        6,
-        "Faster transfers can still be the\nwrong operational choice.",
-        "The fastest route wins on speed. The decision changes when cost enters the frame.",
-    )
-    ax = fig.add_axes((0.13, 0.31, 0.74, 0.40), facecolor=PAPER)
-    ax.spines[:].set_visible(False)
-    ax.grid(color=LINE, linewidth=0.8)
-    for route, instant, cost, support, contribution, volume in rows:
-        color = ORANGE if route == "priority_speed_route" else PURPLE
-        label = "Priority speed route" if route == "priority_speed_route" else "Other routes"
-        ax.scatter(cost, instant, s=volume / 320, color=color, edgecolor=INK, linewidth=1.3, alpha=0.95)
-        offset = (0.55, -2.7) if route == "priority_speed_route" else (0.55, 1.0)
-        ax.text(cost + offset[0], instant + offset[1], f"{label}\n{instant:.1f}% instant  |  {cost:.1f} bps cost", color=INK, fontsize=11, fontweight="bold")
-    ax.set_xlabel("Provider cost rate (bps)", color=MUTED)
-    ax.set_ylabel("Instant transfer rate", color=MUTED)
-    ax.set_yticks([80, 85, 90, 95, 100], ["80%", "85%", "90%", "95%", "100%"])
-    ax.set_xlim(5, 25)
-    ax.set_ylim(78, 101)
-
     priority = next(row for row in rows if row[0] == "priority_speed_route")
     other = next(row for row in rows if row[0] == "other_routes")
-    fig.text(0.12, 0.20, f"+{priority[1] - other[1]:.1f} pp", color=PURPLE, fontsize=26, fontweight="bold")
-    fig.text(0.12, 0.17, "instant speed", color=MUTED, fontsize=11)
-    fig.text(0.43, 0.20, f"+{priority[2] - other[2]:.1f} bps", color=ORANGE, fontsize=26, fontweight="bold")
-    fig.text(0.43, 0.17, "provider cost", color=MUTED, fontsize=11)
-    fig.text(0.73, 0.20, f"{priority[4] - other[4]:.1f} bps", color=ORANGE, fontsize=26, fontweight="bold")
-    fig.text(0.73, 0.17, "contribution gap", color=MUTED, fontsize=11)
+    instant_gap = priority[2] - other[2]
+    cost_gap = priority[3] - other[3]
+    contribution_gap = priority[5] - other[5]
+    cost_multiple = priority[3] / other[3]
+    support_events = round(priority[1] * priority[4] / 100 + other[1] * other[4] / 100)
+
+    fig = plt.figure(figsize=(12, 15), facecolor=WHITE)
+    ax = fig.add_axes((0, 0, 1, 1))
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
+
+    def rough_card(x, y, width, height, linewidth=2.5):
+        patch = FancyBboxPatch(
+            (x, y),
+            width,
+            height,
+            boxstyle="round,pad=0.012,rounding_size=0.018",
+            linewidth=linewidth,
+            edgecolor=INK,
+            facecolor=WHITE,
+        )
+        patch.set_sketch_params(scale=1.2, length=90, randomness=2.5)
+        ax.add_patch(patch)
+
+    def rough_line(xs, ys, linewidth=2.2):
+        line, = ax.plot(xs, ys, color=INK, linewidth=linewidth)
+        line.set_sketch_params(scale=1.2, length=90, randomness=2.5)
+
+    fig.text(0.50, 0.955, "30 DAYS INSIDE A EUROPEAN FINTECH  ·  6/8", ha="center", color=INK, fontsize=13, fontweight="bold")
+    fig.text(0.50, 0.865, f"98.4% INSTANT.\n{cost_multiple:.1f}× THE COST.", ha="center", color=INK, fontsize=36, fontweight="bold", linespacing=1.0)
+    fig.text(0.50, 0.785, "C01  ·  H1 2026  ·  completed transfers", ha="center", color=INK, fontsize=15)
+
+    route_cards = [
+        (0.055, "PRIORITY-SPEED ROUTE", priority),
+        (0.525, "OTHER ROUTES", other),
+    ]
+    for x, heading, row in route_cards:
+        _, transfers, instant, cost, support, contribution = row
+        rough_card(x, 0.485, 0.42, 0.235, 3.0)
+        ax.text(x + 0.21, 0.68, heading, ha="center", color=INK, fontsize=13, fontweight="bold")
+        ax.text(x + 0.21, 0.635, f"{instant:.1f}% INSTANT", ha="center", color=INK, fontsize=25, fontweight="bold")
+        ax.text(x + 0.21, 0.585, f"{cost:.2f} bps cost", ha="center", color=INK, fontsize=15, family="monospace")
+        ax.text(x + 0.21, 0.545, f"{contribution:.2f} bps contribution", ha="center", color=INK, fontsize=15, family="monospace")
+        ax.text(x + 0.21, 0.505, f"{support:.1f}% support  ·  n={transfers}", ha="center", color=INK, fontsize=11)
+
+    ax.text(0.50, 0.60, "VS", ha="center", va="center", color=INK, fontsize=14, fontweight="bold")
+
+    rough_card(0.07, 0.32, 0.86, 0.105, 2.8)
+    tradeoffs = [
+        (0.22, f"+{instant_gap:.1f} pp", "INSTANT RATE"),
+        (0.50, f"+{cost_gap:.2f} bps", "PROVIDER COST"),
+        (0.78, f"{contribution_gap:.2f} bps", "CONTRIBUTION"),
+    ]
+    for x, value, label in tradeoffs:
+        ax.text(x, 0.375, value, ha="center", color=INK, fontsize=20, fontweight="bold", family="monospace")
+        ax.text(x, 0.34, label, ha="center", color=INK, fontsize=10, fontweight="bold")
+    rough_line([0.355, 0.355], [0.34, 0.40], 1.7)
+    rough_line([0.645, 0.645], [0.34, 0.40], 1.7)
+
+    ax.text(0.50, 0.245, "TEST THE TRADE-OFF. DON'T ASSUME THE CAUSE.", ha="center", color=INK, fontsize=21, fontweight="bold")
+    rough_line([0.19, 0.81], [0.232, 0.232], 2.0)
+    ax.text(0.50, 0.195, "controlled test on eligible, non-urgent transfers", ha="center", color=INK, fontsize=13)
+    ax.text(0.50, 0.165, "contribution primary  ·  speed, support and reconciliation as guardrails", ha="center", color=INK, fontsize=11)
+    ax.text(0.50, 0.125, f"observational comparison  ·  only {support_events} support events", ha="center", color=INK, fontsize=10)
+    fig.text(0.50, 0.075, "Synthetic transaction data  |  Independent simulation", ha="center", color=INK, fontsize=10)
+    fig.text(0.92, 0.035, "Victor Moraes Garlet", ha="right", color=INK, fontsize=10, fontweight="bold")
     save(fig, "episode_06_speed_cost_tradeoff.png")
 
 
