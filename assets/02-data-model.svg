@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="455" viewBox="0 0 1200 455" role="img" aria-labelledby="title desc">
+<title id="title">Synthetic dataset relationship map</title>
+<desc id="desc">Customers lead to quotes and transfer attempts. Completed transfers have fee, cost and settlement records; support and refunds are optional. Corridors, providers and pricing rules are reference data.</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M1 1 L8 4.5 L1 8" fill="none" stroke="#91A4B3" stroke-width="1.7"/></marker></defs>
+<rect width="1200" height="455" fill="#F7FAFC"/>
+<rect x="0" y="0" width="7" height="455" fill="#087F76"/>
+<text x="52" y="37" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="13" font-weight="700" fill="#087F76" text-anchor="start">02 / EVIDENCE</text>
+<text x="52" y="72" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#14273B" text-anchor="start">A generated business, connected at transfer level</text>
+<text x="52" y="100" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#516477" text-anchor="start">Eleven source tables, with keys and event grains documented in the data dictionary.</text>
+<rect x="54" y="179" width="170" height="82" rx="15" fill="#FFFFFF" stroke="#C8D5DD" stroke-width="1.5"/>
+<rect x="54" y="179" width="6" height="82" rx="3" fill="#087F76" stroke="#087F76" stroke-width="0"/>
+<text x="71" y="213" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="19" font-weight="700" fill="#14273B" text-anchor="start">Customers</text>
+<text x="71" y="240" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="400" fill="#516477" text-anchor="start">3,500 records</text>
+<rect x="281" y="179" width="170" height="82" rx="15" fill="#FFFFFF" stroke="#C8D5DD" stroke-width="1.5"/>
+<rect x="281" y="179" width="6" height="82" rx="3" fill="#087F76" stroke="#087F76" stroke-width="0"/>
+<text x="298" y="213" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="19" font-weight="700" fill="#14273B" text-anchor="start">Quotes</text>
+<text x="298" y="240" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="400" fill="#516477" text-anchor="start">10,000 records</text>
+<rect x="510" y="179" width="205" height="82" rx="15" fill="#FFFFFF" stroke="#C8D5DD" stroke-width="1.5"/>
+<rect x="510" y="179" width="6" height="82" rx="3" fill="#14273B" stroke="#14273B" stroke-width="0"/>
+<text x="527" y="213" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="19" font-weight="700" fill="#14273B" text-anchor="start">Transfers</text>
+<text x="527" y="240" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="400" fill="#516477" text-anchor="start">10,000 attempts</text>
+<rect x="803" y="126" width="335" height="72" rx="15" fill="#FFFFFF" stroke="#C8D5DD" stroke-width="1.5"/>
+<rect x="803" y="126" width="6" height="72" rx="3" fill="#B86D28" stroke="#B86D28" stroke-width="0"/>
+<text x="820" y="160" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="19" font-weight="700" fill="#14273B" text-anchor="start">Fees + pricing</text>
+<text x="820" y="187" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="400" fill="#516477" text-anchor="start">9,851 completed outcomes</text>
+<rect x="803" y="215" width="335" height="72" rx="15" fill="#FFFFFF" stroke="#C8D5DD" stroke-width="1.5"/>
+<rect x="803" y="215" width="6" height="72" rx="3" fill="#2D628F" stroke="#2D628F" stroke-width="0"/>
+<text x="820" y="249" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="19" font-weight="700" fill="#14273B" text-anchor="start">Cost + settlements</text>
+<text x="820" y="276" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="400" fill="#516477" text-anchor="start">9,851 settlement records</text>
+<rect x="803" y="304" width="335" height="72" rx="15" fill="#FFFFFF" stroke="#C8D5DD" stroke-width="1.5"/>
+<rect x="803" y="304" width="6" height="72" rx="3" fill="#2D628F" stroke="#2D628F" stroke-width="0"/>
+<text x="820" y="338" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="19" font-weight="700" fill="#14273B" text-anchor="start">Support + refunds</text>
+<text x="820" y="365" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="400" fill="#516477" text-anchor="start">Optional transfer outcomes</text>
+<path d="M224 220 H272" fill="none" stroke="#C8D5DD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M451 220 H500" fill="none" stroke="#C8D5DD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M715 220 H750 V162 H793" fill="none" stroke="#C8D5DD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M715 220 H793" fill="none" stroke="#C8D5DD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M715 220 H750 V340 H793" fill="none" stroke="#C8D5DD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="54" y="374" width="661" height="49" rx="9" fill="#EAF2F5" stroke="#EAF2F5" stroke-width="0"/>
+<text x="73" y="405" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#516477" text-anchor="start">Reference tables: 20 corridors · 6 providers · 80 pricing rules</text>
+</svg>
