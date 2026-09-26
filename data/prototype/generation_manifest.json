@@ -1,9 +1,9 @@
 {
-  "project": "30 Days Inside a European Fintech",
+  "project": "Fintech Analytics Decision Room",
   "seed": 20260924,
   "period_start": "2025-07-01",
   "period_end": "2026-06-30",
-  "config_sha256": "264504bee48db814f5353671c451710121edc186b7ebe1c53dff58a02608b11c",
+  "config_sha256": "68e297c90a5c648d74fd47ad0a7286de8be3e850ebb48a1ce886cedb736cf938",
   "row_counts": {
     "customers": 3500,
     "corridors": 20,

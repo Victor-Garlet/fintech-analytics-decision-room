@@ -1,0 +1,38 @@
+approved_price_investment:
+  corridors: [C01, C06]
+  start_date: "2026-01-01"
+  end_date: "2026-06-30"
+  reduction_bps: 5.0
+
+metric_timing_mismatch:
+  month_end_day: 27
+  cross_month_probability: 0.55
+  added_delay_hours_min: 36
+  added_delay_hours_max: 96
+
+discount_configuration_leakage:
+  corridor_id: C07
+  customer_segment: business_smb
+  start_date: "2026-02-01"
+  end_date: "2026-05-31"
+  leakage_bps: 18.0
+  target_segment_probability: 0.70
+
+settlement_exception_pattern:
+  corridor_id: C13
+  provider_id: P04
+  start_date: "2026-03-01"
+  end_date: "2026-05-31"
+  target_provider_probability: 0.65
+  mismatch_probability: 0.18
+  missing_probability: 0.07
+  late_probability: 0.12
+
+speed_cost_tradeoff:
+  corridor_id: C01
+  provider_id: P02
+  start_date: "2026-01-01"
+  end_date: "2026-06-30"
+  target_provider_probability: 0.65
+  instant_probability: 0.97
+  cost_surcharge_bps: 13.0

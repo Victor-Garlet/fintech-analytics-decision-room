@@ -634,7 +634,7 @@ def generate_prototype(project_root: Path) -> dict[str, Any]:
     project_root = project_root.resolve()
     config_path = project_root / "config" / "prototype.yml"
     domain_path = project_root / "config" / "domain.yml"
-    scenario_path = project_root / "config" / "private" / "prototype_scenarios.yml"
+    scenario_path = project_root / "config" / "scenarios.yml"
     config = _load_yaml(config_path)
     domain = _load_yaml(domain_path)
     scenarios = _load_yaml(scenario_path)

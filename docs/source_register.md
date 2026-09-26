@@ -1,6 +1,6 @@
 # Source Register
 
-**Project:** 30 Days Inside a European Fintech
+**Project:** Fintech Analytics Decision Room
 **Last reviewed:** 24 September 2026
 **Rule:** public sources establish context and definitions. They do not provide or imply transaction-level truth.
 
@@ -13,7 +13,6 @@
 | S03 | [Wise Help Centre: Fees for sending money](https://wise.com/help/articles/2522717/fees-for-sending-money) | Current help article | 24 Sep 2026 | Public explanation that transfer cost can depend on amount, payment method and exchange rate | Prototype fee rules are simplified project assumptions, not Wise pricing rules |
 | S04 | [Wise Help Centre: Will my transfer be instant?](https://wise.com/help/articles/2932104/will-my-transfer-be-instant) | Current help article | 24 Sep 2026 | Public explanation that delivery speed varies by currency, payment type, working day and transfer circumstances | Prototype instant classification is a documented analytical rule, not a reproduction of Wise operations |
 | S05 | [Wise Help Centre: Mid-market exchange rate](https://wise.com/help/articles/2932395/whats-the-mid-market-exchange-rate) | Current help article | 24 Sep 2026 | Plain-language explanation of the mid-market rate and rate display | Prototype FX rates are fixed synthetic configuration values and must not be presented as market data |
-| S06 | [Wise Analytics Career Map](https://wise.jobs/analytics-career-map) | Current careers page | 24 Sep 2026 | Alignment of the public project with increasing analytical impact, ownership and technical capability | Career expectations inform project design only; they do not describe the simulated dataset |
 
 ## Facts approved for public use
 
@@ -50,16 +49,15 @@ These choices make the simulation coherent. They are not sourced claims about Wi
 
 | Project output | Permitted public sources | Synthetic inputs required |
 | --- | --- | --- |
-| Episode 1 business signal | S01, S02 | None for the opening context |
+| Business question and context | S01, S02 | None for the opening context |
 | Fee model explanation | S03 | Pricing rules, approved price investment and fee records |
 | Speed analysis | S01, S04 | Completion timestamps, provider routes and provider costs |
 | FX explanation | S05 | Fixed synthetic rates from configuration |
-| Senior-role relevance | S06 | Repository evidence and project decisions |
 | Any corridor or provider finding | None | Generated transaction, settlement, fee and cost data only |
 
-## Publication checks
+## Evidence checks
 
-Before a number appears publicly:
+Before a number appears in a report or presentation:
 
 1. Identify whether it is a public fact, project assumption or synthetic result.
 2. Attach the source ID or reproducible model path.

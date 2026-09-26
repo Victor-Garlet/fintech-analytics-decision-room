@@ -4,7 +4,6 @@ __pycache__/
 .env
 .DS_Store
 .pytest_cache/
-config/private/
 data/full/
 data/exports/
 data/parquet/
@@ -13,5 +12,4 @@ dbt_fintech/.user.yml
 dbt_fintech/target/
 dbt_fintech/logs/
 dbt_fintech/dbt_packages/
-reports/prototype_validation.md
 *.log

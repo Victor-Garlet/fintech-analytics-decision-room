@@ -59,7 +59,7 @@ def _check(checks: list[dict[str, Any]], name: str, passed: bool, detail: str) -
 def validate_prototype(project_root: Path, write_report: bool = True) -> dict[str, Any]:
     project_root = project_root.resolve()
     config = _load_yaml(project_root / "config" / "prototype.yml")
-    scenarios = _load_yaml(project_root / "config" / "private" / "prototype_scenarios.yml")
+    scenarios = _load_yaml(project_root / "config" / "scenarios.yml")
     tables = _load_tables(project_root)
     customers = tables["customers"]
     corridors = tables["corridors"]
@@ -287,7 +287,7 @@ def validate_prototype(project_root: Path, write_report: bool = True) -> dict[st
             "",
             f"**Status:** {status}  ",
             "**Dataset:** Synthetic 10,000-transfer prototype  ",
-            "**Warning:** This internal report contains scenario-validation detail. Do not publish it before the related episodes.",
+            "**Scope:** Structural and scenario-detectability checks for this synthetic case.",
             "",
             "## Dataset summary",
             "",
