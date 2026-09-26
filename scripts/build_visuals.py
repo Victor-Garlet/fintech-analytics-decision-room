@@ -200,42 +200,71 @@ def build_episode_03(connection):
         """,
     )
     start, carry_out, carry_in, variance, finance, residual = row
-    deltas = [-carry_out, carry_in, variance]
-    labels = ["Operations\ncompletion cohort", "Carry out", "Carry in", "Same-month\nvariance", "Finance\nsettlement view"]
 
-    fig, _ = base_figure(
-        3,
-        "Finance and Operations were\nboth right.",
-        "March 2026 uses two valid event clocks. A bridge makes them comparable.",
-    )
-    ax = fig.add_axes((0.10, 0.22, 0.82, 0.48), facecolor=PAPER)
-    ax.spines[:].set_visible(False)
-    ax.tick_params(axis="x", length=0, labelsize=10)
-    ax.tick_params(axis="y", colors=MUTED)
-    ax.grid(axis="y", color=LINE, linewidth=0.8, alpha=0.7)
+    fig = plt.figure(figsize=(12, 15), facecolor=WHITE)
+    ax = fig.add_axes((0, 0, 1, 1))
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
 
-    positions = range(5)
-    running = start
-    ax.bar(0, start / 1_000_000, color=PURPLE, width=0.62)
-    ax.text(0, start / 1_000_000 + 0.08, f"${start / 1_000_000:.2f}m", ha="center", fontweight="bold")
-    for i, delta in enumerate(deltas, start=1):
-        next_value = running + delta
-        bottom = min(running, next_value) / 1_000_000
-        height = max(abs(delta) / 1_000_000, 0.018)
-        color = ORANGE if delta < 0 else PURPLE
-        ax.bar(i, height, bottom=bottom, color=color, width=0.62)
-        label = f"{delta / 1_000_000:+.2f}m" if abs(delta) >= 10_000 else f"{delta:+,.0f}"
-        ax.text(i, bottom + height + 0.08, label, ha="center", color=color, fontweight="bold")
-        ax.plot([i - 0.69, i - 0.31], [running / 1_000_000, running / 1_000_000], color=MUTED, linewidth=1)
-        running = next_value
-    ax.bar(4, finance / 1_000_000, color=INK, width=0.62)
-    ax.text(4, finance / 1_000_000 + 0.08, f"${finance / 1_000_000:.2f}m", ha="center", fontweight="bold")
-    ax.set_xticks(list(positions), labels)
-    ax.set_ylabel("USD millions", color=MUTED)
-    ax.set_ylim(0, max(start, finance) / 1_000_000 + 0.7)
+    def rough_card(x, y, width, height, linewidth=2.5):
+        patch = FancyBboxPatch(
+            (x, y),
+            width,
+            height,
+            boxstyle="round,pad=0.012,rounding_size=0.018",
+            linewidth=linewidth,
+            edgecolor=INK,
+            facecolor=WHITE,
+        )
+        patch.set_sketch_params(scale=1.2, length=90, randomness=2.5)
+        ax.add_patch(patch)
+
+    def rough_line(xs, ys, linewidth=2.2):
+        line, = ax.plot(xs, ys, color=INK, linewidth=linewidth)
+        line.set_sketch_params(scale=1.2, length=90, randomness=2.5)
+
+    fig.text(0.50, 0.955, "30 DAYS INSIDE A EUROPEAN FINTECH  ·  3/8", ha="center", color=INK, fontsize=13, fontweight="bold")
+    fig.text(0.50, 0.865, "TWO TOTALS.\nBOTH RIGHT.", ha="center", color=INK, fontsize=36, fontweight="bold", linespacing=1.0)
+    fig.text(0.50, 0.785, "March 2026  ·  one ledger, different event clocks", ha="center", color=INK, fontsize=15)
+
+    rough_card(0.08, 0.595, 0.35, 0.125, 3.0)
+    ax.text(0.255, 0.675, "OPERATIONS", ha="center", color=INK, fontsize=14, fontweight="bold")
+    ax.text(0.255, 0.635, f"${start / 1_000_000:.3f}m", ha="center", color=INK, fontsize=25, fontweight="bold")
+    ax.text(0.255, 0.605, "completed in March", ha="center", color=INK, fontsize=12)
+
+    rough_card(0.57, 0.595, 0.35, 0.125, 3.0)
+    ax.text(0.745, 0.675, "FINANCE", ha="center", color=INK, fontsize=14, fontweight="bold")
+    ax.text(0.745, 0.635, f"${finance / 1_000_000:.3f}m", ha="center", color=INK, fontsize=25, fontweight="bold")
+    ax.text(0.745, 0.605, "settled in March", ha="center", color=INK, fontsize=12)
+
+    rough_line([0.255, 0.255], [0.595, 0.555])
+    rough_line([0.745, 0.745], [0.595, 0.555])
+    rough_line([0.255, 0.745], [0.555, 0.555])
+    rough_line([0.50, 0.50], [0.555, 0.52])
+
+    rough_card(0.08, 0.355, 0.84, 0.14, 3.0)
+    ax.text(0.50, 0.465, "RECONCILIATION BRIDGE", ha="center", color=INK, fontsize=15, fontweight="bold")
+    bridge_items = [
+        (0.22, "CARRY OUT", f"-${carry_out / 1_000:.1f}k"),
+        (0.50, "CARRY IN", f"+${carry_in / 1_000:.1f}k"),
+        (0.78, "VARIANCE", f"-${abs(variance):,.0f}"),
+    ]
+    for x, heading, amount in bridge_items:
+        ax.text(x, 0.415, heading, ha="center", color=INK, fontsize=11, fontweight="bold")
+        ax.text(x, 0.378, amount, ha="center", color=INK, fontsize=17, fontweight="bold", family="monospace")
+    rough_line([0.355, 0.355], [0.37, 0.44], 1.7)
+    rough_line([0.645, 0.645], [0.37, 0.44], 1.7)
+
     display_residual = 0.0 if abs(residual) < 0.005 else residual
-    fig.text(0.50, 0.13, f"Bridge residual: ${display_residual:,.2f}", ha="center", color=PURPLE, fontsize=20, fontweight="bold")
-    fig.text(0.50, 0.095, "Different timestamps created the disagreement. The accounting still closes.", ha="center", color=MUTED, fontsize=12)
+    rough_line([0.50, 0.50], [0.355, 0.32])
+    rough_card(0.22, 0.225, 0.56, 0.075)
+    ax.text(0.50, 0.265, f"UNEXPLAINED RESIDUAL   ${display_residual:,.2f}", ha="center", color=INK, fontsize=18, fontweight="bold")
+
+    ax.text(0.50, 0.15, "KEEP BOTH CLOCKS. RECONCILE THE DIFFERENCE.", ha="center", color=INK, fontsize=21, fontweight="bold")
+    rough_line([0.25, 0.75], [0.138, 0.138], 2.0)
+    fig.text(0.50, 0.075, "Synthetic transaction data  |  Independent simulation", ha="center", color=INK, fontsize=10)
+    fig.text(0.92, 0.035, "Victor Moraes Garlet", ha="right", color=INK, fontsize=10, fontweight="bold")
     save(fig, "episode_03_two_reporting_clocks.png")
 
 
